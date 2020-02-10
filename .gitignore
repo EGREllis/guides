@@ -5,3 +5,5 @@
 /guides-app/target/
 /guides-web/target/
 /*/target/
+derby.log
+guides_db

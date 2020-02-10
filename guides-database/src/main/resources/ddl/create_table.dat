@@ -1,0 +1,5 @@
+create_table   create_registration.sql
+create_table   create_client.sql
+create_table   create_event.sql
+create_table   create_payment_type.sql
+create_table   create_payment.sql
