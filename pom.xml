@@ -9,5 +9,6 @@
   <modules>
     <module>guides-app</module>
     <module>guides-database</module>
+    <module>guides-web</module>
   </modules>
 </project>
