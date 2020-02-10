@@ -96,7 +96,10 @@ public class CreateTableSqlCommand implements SqlCommand {
         return true;
     }
 
-    boolean prepare() throws SQLException {
+    public boolean prepare() throws SQLException {
+        if (!read()) {
+            return false;
+        }
         boolean safeToRun = false;
         String tableCountSql = String.format(CHECK_TABLE_EXISTS_STATEMENT_FORMAT, tableName);
         int tableCount = executeSingleFieldSingleRowIntResultSetQuery(tableCountSql);

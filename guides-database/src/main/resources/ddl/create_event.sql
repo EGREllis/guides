@@ -1,5 +1,6 @@
 CREATE TABLE event (
-  event_id INT,
-  title VARCHAR(16),
-  start_date DATE
+  event_id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR(16) NOT NULL,
+  start_date DATE NOT NULL,
+  PRIMARY KEY (event_id)
 );
