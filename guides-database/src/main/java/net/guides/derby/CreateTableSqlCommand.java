@@ -14,19 +14,12 @@ import java.util.regex.Pattern;
 public class CreateTableSqlCommand implements SqlCommand {
     private static final Pattern CREATE_TABLE_PATTERN = Pattern.compile("(CREATE TABLE\\s*([\\.\\w]+)\\s*[^;]+);");
     private static final String EXCEPTION_SQL_STATEMENT_DID_NOT_MATCH = "File: %1$s \tStatement did not match validation pattern";
-    private static final String EXCEPTION_EXPECTED_RESULT_SET_NOT_UPDATE_COUNT = "Expected to execute a query returning a result set, but received an update count instead: %1$s";
-    private static final String EXCEPTION_EXPECTED_UPDATE_COUNT_NOT_RESULT_SET = "Expected to execute a query returning an update count, but received a result set instead: %1$s";
-    private static final String EXCEPTION_EXPECTED_NON_ZERO_RESULT_SET = "Expected at least one result set: %1$s";
-    private static final String EXCEPTION_EXPECTED_EXACTLY_ONE_RESULT_SET = "Expected exactly one result set but received two: %1$s";
     private static final String WARNING_FOUND_TABLE = "Warning: Found table %1$s";
     private static final String WARNING_COULD_NOT_VALIDATE_CREATING_TABLE = "Warning: Could not validate table %1$s";
     private static final String WARNING_COULD_NOT_VALIDATE_DROPPING_TABLE = "Warning: Could not verify dropping table %1$s";
-    private static final String INFO_UPDATE_COUNT = "Update count %1$d: Statement: %2$s";
     private static final String INFO_VALIDATED_TABLE = "Validated creating table %1$s";
     private static final String INFO_VALIDATED_TABLE_DROPPED = "Validated dropping table %1$s";
     private static final String INFO_VERIFIED_TABLE_DOES_NOT_EXIST = "Verified table does not exist: %1$s";
-    private static final String INFO_DISPlAY_SINGLE_ROW_SINGLE_COLOUMN_INT_RESULT = "Result: %1$d SQL: %2$s";
-    private static final String INFO_DDL_STATEMENT = "Executing DDL: %1$s";
     private static final String VALIDATE_TABLE_NO_SCHEMA_EXISTS_STATEMENT_FORMAT = "SELECT count(0) as value FROM sys.systables WHERE tablename = '%1$s'";
     private static final String VALIDATE_TABLE_WITH_SCHEMA_EXISTS_STATEMENT_FORMAT = "SELECT count(0) as value FROM sys.systables t, sys.sysschemas s WHERE t.tablename = '%1$s' AND s.schemaid = t.schemaid AND s.schemaname = '%2$s'";
     private static final String DROP_TABLE_STATEMENT_NO_SCHEMA_FORMAT = "DROP TABLE %1$s";
@@ -50,39 +43,12 @@ public class CreateTableSqlCommand implements SqlCommand {
         return read() && prepare() && perform() && validate();
     }
 
-    int executeSingleFieldSingleRowIntResultSetQuery(String sql) throws SQLException {
-        int result;
-        try (Connection connection = database.getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                if (!statement.execute(sql)) {
-                    throw new IllegalStateException(String.format(EXCEPTION_EXPECTED_RESULT_SET_NOT_UPDATE_COUNT, sql));
-                }
-                try (ResultSet resultSet = statement.getResultSet()) {
-                    if (!resultSet.next()) {
-                        throw new IllegalStateException(String.format(EXCEPTION_EXPECTED_NON_ZERO_RESULT_SET, sql));
-                    }
-                    result = resultSet.getInt(1);
-                    System.out.println(String.format(INFO_DISPlAY_SINGLE_ROW_SINGLE_COLOUMN_INT_RESULT, result, sql));
-                    if (resultSet.next()) {
-                        throw new IllegalStateException(String.format(EXCEPTION_EXPECTED_EXACTLY_ONE_RESULT_SET, sql));
-                    }
-                }
-            }
-        }
-        return result;
+    public String getSchemaName() {
+        return schemaName;
     }
 
-    void executeDDLStatement(String sql) throws SQLException {
-        try (Connection connection = database.getConnection()) {
-            try (Statement statement = connection.createStatement()) {
-                System.out.println(String.format(INFO_DDL_STATEMENT, sql));
-                System.out.flush();
-                if (statement.execute(sql)) {
-                    throw new IllegalStateException(String.format(EXCEPTION_EXPECTED_UPDATE_COUNT_NOT_RESULT_SET, sql));
-                }
-                System.out.println(String.format(INFO_UPDATE_COUNT, statement.getUpdateCount(), sql));
-            }
-        }
+    public String getTableName() {
+        return tableName;
     }
 
     boolean read() {
@@ -138,7 +104,7 @@ public class CreateTableSqlCommand implements SqlCommand {
         }
         boolean safeToRun = false;
         String tableCountSql = getValidateTableSql();
-        int tableCount = executeSingleFieldSingleRowIntResultSetQuery(tableCountSql);
+        int tableCount = database.executeSingleFieldSingleRowIntResultSetQuery(tableCountSql);
         if (tableCount == 0) {
             System.out.println(String.format(INFO_VERIFIED_TABLE_DOES_NOT_EXIST, tableName));
             safeToRun = true;
@@ -146,8 +112,8 @@ public class CreateTableSqlCommand implements SqlCommand {
             System.out.println(String.format(WARNING_FOUND_TABLE, tableName));
             if (dropIfFound) {
                 String dropTable = getDropTableSql();
-                executeDDLStatement(dropTable);
-                int validateDroped = executeSingleFieldSingleRowIntResultSetQuery(tableCountSql);
+                database.executeDDLStatement(dropTable);
+                int validateDroped = database.executeSingleFieldSingleRowIntResultSetQuery(tableCountSql);
                 if (validateDroped == 0) {
                     System.out.println(String.format(INFO_VALIDATED_TABLE_DROPPED, tableName));
                     safeToRun = true;
@@ -160,14 +126,16 @@ public class CreateTableSqlCommand implements SqlCommand {
     }
 
     boolean perform() throws SQLException {
-        executeDDLStatement(createSql);
+        database.executeDDLStatement(createSql);
         return true;
     }
 
     boolean validate() throws SQLException {
+        return true;
+        /*
         boolean result = false;
         String tableQuery = String.format(VALIDATE_TABLE_NO_SCHEMA_EXISTS_STATEMENT_FORMAT, tableName);
-        int tableCount = executeSingleFieldSingleRowIntResultSetQuery(tableQuery);
+        int tableCount = database.executeSingleFieldSingleRowIntResultSetQuery(tableQuery);
         if (tableCount == 1) {
             result = true;
             System.out.println(String.format(INFO_VALIDATED_TABLE, tableName));
@@ -175,5 +143,6 @@ public class CreateTableSqlCommand implements SqlCommand {
             System.err.println(String.format(WARNING_COULD_NOT_VALIDATE_CREATING_TABLE, tableName));
         }
         return result;
+        */
     }
 }
