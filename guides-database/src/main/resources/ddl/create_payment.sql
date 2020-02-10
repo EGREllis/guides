@@ -1,4 +1,4 @@
-CREATE TABLE payment (
+CREATE TABLE guides.payment (
   payment_id INT NOT NULL GENERATED ALWAYS AS IDENTITY,
   client_id INT NOT NULL,
   event_id INT NOT NULL,
