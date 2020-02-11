@@ -10,6 +10,8 @@ import java.util.Properties;
 public class Database {
     private static final String DATABASE_PROPERTIES_LOCATION = "properties/db_connection.properties";
     private static final String CREATE_TABLE_LOCATION = "ddl/create_table.dat";
+    private static final String INSERT_TABLE_LOCATION = "dml/insert_data.dat";
+    private static final String INSERT_TABLE_TEST_DATA = "dml/insert_test_data.dat";
 
     private static final String EXCEPTION_EXPECTED_RESULT_SET_NOT_UPDATE_COUNT = "Expected to execute a query returning a result set, but received an update count instead: %1$s";
     private static final String EXCEPTION_EXPECTED_UPDATE_COUNT_NOT_RESULT_SET = "Expected to execute a query returning an update count, but received a result set instead: %1$s";
@@ -26,6 +28,7 @@ public class Database {
     private static final String DB_USERNAME_KEY = "DB_USERNAME";
     private static final String DB_PASSWORD_KEY = "DB_PASSWORD";
     private static final boolean DROP_TABLE_IF_FOUND = true;
+    private static final boolean TRUNCATE_TABLE_IF_DATA_FOUND = true;
 
     private Properties dbProperties;
 
@@ -34,6 +37,7 @@ public class Database {
         registerDriver(dbProperties);
         System.out.println(dbProperties);
         createTables();
+        populateTables();
     }
 
     public Connection getConnection() throws SQLException {
@@ -62,6 +66,18 @@ public class Database {
         try {
             clean = batch.prepare() && batch.execute();
             System.out.println(String.format(INFO_BATCH_CLEAN, "create tables", clean));
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+        return clean;
+    }
+
+    private boolean populateTables() {
+        boolean clean;
+        InsertDataSqlBatchCommand batch = new InsertDataSqlBatchCommand(this, INSERT_TABLE_LOCATION, TRUNCATE_TABLE_IF_DATA_FOUND);
+        try {
+            clean = batch.prepare() && batch.execute();
+            System.out.println(String.format(INFO_BATCH_CLEAN, "insert data", clean));
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         }
