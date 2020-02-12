@@ -10,5 +10,6 @@
     <module>guides-app</module>
     <module>guides-database</module>
     <module>guides-web</module>
+    <module>guides-server</module>
   </modules>
 </project>
