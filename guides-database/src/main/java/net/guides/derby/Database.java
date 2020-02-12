@@ -27,8 +27,6 @@ public class Database {
     private static final String DB_URL_KEY = "JDBC_URL";
     private static final String DB_USERNAME_KEY = "DB_USERNAME";
     private static final String DB_PASSWORD_KEY = "DB_PASSWORD";
-    private static final boolean DROP_TABLE_IF_FOUND = true;
-    private static final boolean TRUNCATE_TABLE_IF_DATA_FOUND = true;
 
     private Properties dbProperties;
 
@@ -37,9 +35,10 @@ public class Database {
         registerDriver(dbProperties);
     }
 
-    public void create(boolean dropTableIfFound, boolean truncateTableIfFound) {
+    public void create(boolean dropTableIfFound, boolean truncateTableIfFound, boolean populateTestData) {
         createTables(dropTableIfFound);
         populateTables(truncateTableIfFound);
+        populateTablesWithTestData(false);
     }
 
     public Connection getConnection() throws SQLException {
@@ -80,6 +79,18 @@ public class Database {
         try {
             clean = batch.prepare() && batch.execute();
             System.out.println(String.format(INFO_BATCH_CLEAN, "insert data", clean));
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+        return clean;
+    }
+
+    private boolean populateTablesWithTestData(boolean truncateDataIfFound) {
+        boolean clean;
+        InsertDataSqlBatchCommand batch = new InsertDataSqlBatchCommand(this, INSERT_TABLE_TEST_DATA, truncateDataIfFound);
+        try {
+            clean = batch.prepare() && batch.execute();
+            System.out.println(String.format(INFO_BATCH_CLEAN, "insert test data", clean));
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);
         }
