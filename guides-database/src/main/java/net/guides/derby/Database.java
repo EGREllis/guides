@@ -35,9 +35,11 @@ public class Database {
     public void start() throws Exception {
         dbProperties = getDatabaseProperties();
         registerDriver(dbProperties);
-        System.out.println(dbProperties);
-        createTables();
-        populateTables();
+    }
+
+    public void create(boolean dropTableIfFound, boolean truncateTableIfFound) {
+        createTables(dropTableIfFound);
+        populateTables(truncateTableIfFound);
     }
 
     public Connection getConnection() throws SQLException {
@@ -60,9 +62,9 @@ public class Database {
         DriverManager.registerDriver(driver);
     }
 
-    private boolean createTables() {
+    private boolean createTables(boolean dropTableIfFound) {
         boolean clean;
-        CreateTableBatchCommand batch = new CreateTableBatchCommand(this, CREATE_TABLE_LOCATION, DROP_TABLE_IF_FOUND);
+        CreateTableBatchCommand batch = new CreateTableBatchCommand(this, CREATE_TABLE_LOCATION, dropTableIfFound);
         try {
             clean = batch.prepare() && batch.execute();
             System.out.println(String.format(INFO_BATCH_CLEAN, "create tables", clean));
@@ -72,9 +74,9 @@ public class Database {
         return clean;
     }
 
-    private boolean populateTables() {
+    private boolean populateTables(boolean truncateDataIfFound) {
         boolean clean;
-        InsertDataSqlBatchCommand batch = new InsertDataSqlBatchCommand(this, INSERT_TABLE_LOCATION, TRUNCATE_TABLE_IF_DATA_FOUND);
+        InsertDataSqlBatchCommand batch = new InsertDataSqlBatchCommand(this, INSERT_TABLE_LOCATION, truncateDataIfFound);
         try {
             clean = batch.prepare() && batch.execute();
             System.out.println(String.format(INFO_BATCH_CLEAN, "insert data", clean));
