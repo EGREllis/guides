@@ -2,10 +2,22 @@ package net.guides.view;
 
 import net.guides.model.Client;
 
-public class ClientListTableRowMapper implements ListTableColumnMapper<Client> {
+public class ClientColumnMapper implements ColumnMapper<Client> {
+    private static final String[] columnNames = new String[] {"First name", "Last name", "SMS", "Email"};
+
+    @Override
+    public int getColumnCount() {
+        return columnNames.length;
+    }
+
+    @Override
+    public String getColumnName(int c) {
+        return columnNames[c];
+    }
+
     @Override
     public Object getValueAt(int column, Client data) {
-        Object result = null;
+        Object result;
         switch (column) {
             case 0:
                 result = data.getFirstName();

@@ -4,25 +4,23 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class ListTableModel<T> extends AbstractTableModel {
-    private final String[] headers;
-    private final ListTableColumnMapper<T> rowMapper;
+    private final ColumnMapper<T> rowMapper;
     private final List<T> data;
 
 
-    public ListTableModel(String[] headers, List<T> data, ListTableColumnMapper<T> mapper) {
-        this.headers = headers;
+    public ListTableModel(List<T> data, ColumnMapper<T> mapper) {
         this.data = data;
         this.rowMapper = mapper;
     }
 
     @Override
     public String getColumnName(int c) {
-        return headers[c];
+        return rowMapper.getColumnName(c);
     }
 
     @Override
     public int getColumnCount() {
-        return headers.length;
+        return rowMapper.getColumnCount();
     }
 
     @Override
