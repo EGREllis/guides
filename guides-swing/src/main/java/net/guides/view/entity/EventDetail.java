@@ -1,6 +1,7 @@
 package net.guides.view.entity;
 
 import net.guides.model.Event;
+import net.guides.view.Detail;
 
 import static net.guides.view.Constants.BLANK;
 
@@ -10,7 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 
-public class EventDetail {
+public class EventDetail implements Detail<Event> {
     private static final String EVENT_DETAIL_TITLE_KEY = "event.detail.window.title";
     private static final String EVENT_DETAIL_EVENT_TITLE_KEY = "event.detail.title";
     private static final String EVENT_DETAIL_START_DATE_KEY = "event.detail.start.date";
@@ -29,6 +30,7 @@ public class EventDetail {
     private JTextField startDate;
     private JButton proceedButton;
     private JButton cancelButton;
+    private Integer id;
 
     public EventDetail(Properties properties) {
         detailWindow = new JFrame(properties.getProperty(EVENT_DETAIL_TITLE_KEY));
@@ -62,6 +64,7 @@ public class EventDetail {
         startDate.setText(BLANK);
         proceedButton.setText(labelAddButton);
         detailWindow.setVisible(true);
+        id = null;
     }
 
     public void presentEditRecord(Event event) {
@@ -70,5 +73,6 @@ public class EventDetail {
         startDate.setText(dateFormat.format(event.getStartDate()));
         proceedButton.setText(labelEditButton);
         detailWindow.setVisible(true);
+        id = event.getEventId();
     }
 }

@@ -31,10 +31,10 @@ public class ListTableView {
                 Arrays.asList(new net.guides.model.Event(1, "Test date", new Date())),
                 new EventColumnMapper()));
         JTable paymentTable = new JTable(new ListTableModel<Payment>(
-                Arrays.asList(new Payment(0, 0, 0, PaymentType.CARD, new Date())),
+                Arrays.asList(new Payment(0, 0, 0, new PaymentType(1, "Cash"), new Date())),
                 new PaymentColumnMapper()));
         JTable paymentTypeTable = new JTable(new ListTableModel<PaymentType>(
-                Arrays.asList(PaymentType.CASH, PaymentType.CARD),
+                Arrays.asList(new PaymentType(1, "Cash")),
                 new PaymentTypeColumnMapper()));
 
         tables.add(clientTable);

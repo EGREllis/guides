@@ -2,12 +2,13 @@ package net.guides.view.entity;
 
 import static net.guides.view.Constants.BLANK;
 import net.guides.model.Client;
+import net.guides.view.Detail;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Properties;
 
-public class ClientDetail {
+public class ClientDetail implements Detail<Client> {
     private static final String CLIENT_DETAIL_TITLE_KEY = "client.detail.window.title";
     private static final String CLIENT_DETAIL_FIRST_NAME_KEY = "client.detail.first.name";
     private static final String CLIENT_DETAIL_LAST_NAME_KEY = "client.detail.last.name";
@@ -30,6 +31,7 @@ public class ClientDetail {
     private JTextField email;
     private JButton proceedButton;
     private JButton cancelButton;
+    private Integer id;
 
     public ClientDetail(Properties properties) {
         detailWindow = new JFrame(properties.getProperty(CLIENT_DETAIL_TITLE_KEY));
@@ -73,6 +75,7 @@ public class ClientDetail {
         proceedButton.setText(labelEditButton);
         cancelButton.setText(labelCancelButton);
         detailWindow.setVisible(true);
+        id = client.getClientId();
     }
 
     public void presentAddRecord() {
@@ -83,5 +86,6 @@ public class ClientDetail {
         proceedButton.setText(labelAddButton);
         cancelButton.setText(labelCancelButton);
         detailWindow.setVisible(true);
+        id = null;
     }
 }

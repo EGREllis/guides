@@ -39,7 +39,7 @@ public class Payment {
 
     @Override
     public String toString() {
-        return String.format("PaymentType:%1$d ClientId:%2$d EventId:%3$d PaymentType:%4$s PaymentDate:%5$s", paymentId, clientId, eventId, paymentType, paymentDate);
+        return String.format("Payment:%1$d ClientId:%2$d EventId:%3$d PaymentType:%4$s PaymentDate:%5$s", paymentId, clientId, eventId, paymentType, paymentDate);
     }
 
     @Override
