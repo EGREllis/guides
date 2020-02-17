@@ -1,6 +1,7 @@
-package net.guides.view;
+package net.guides.view.table;
 
 import net.guides.model.Event;
+import net.guides.view.ColumnMapper;
 
 public class EventColumnMapper implements ColumnMapper<Event> {
     private static final String[] columnNames = new String[] {"Description", "Start date"};

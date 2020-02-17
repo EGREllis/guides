@@ -1,6 +1,7 @@
-package net.guides.view;
+package net.guides.view.table;
 
 import net.guides.model.Client;
+import net.guides.view.ColumnMapper;
 
 public class ClientColumnMapper implements ColumnMapper<Client> {
     private static final String[] columnNames = new String[] {"First name", "Last name", "SMS", "Email"};

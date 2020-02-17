@@ -3,6 +3,10 @@ package net.guides.view;
 import net.guides.model.Client;
 import net.guides.model.Payment;
 import net.guides.model.PaymentType;
+import net.guides.view.table.ClientColumnMapper;
+import net.guides.view.table.EventColumnMapper;
+import net.guides.view.table.PaymentColumnMapper;
+import net.guides.view.table.PaymentTypeColumnMapper;
 
 import javax.swing.*;
 import java.awt.*;

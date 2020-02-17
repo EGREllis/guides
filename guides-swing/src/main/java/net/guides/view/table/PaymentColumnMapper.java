@@ -1,6 +1,7 @@
-package net.guides.view;
+package net.guides.view.table;
 
 import net.guides.model.Payment;
+import net.guides.view.ColumnMapper;
 
 public class PaymentColumnMapper implements ColumnMapper<Payment> {
     private static final String[] columnNames = new String[]{"Client", "Event", "PaymentDate", "PaymentType"};
