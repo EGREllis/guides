@@ -6,4 +6,5 @@ public interface Repository<T> {
     List<T> listRecords();
     boolean addRecord(T record);
     T getRecord(int id);
+    boolean removeRecord(T record);
 }
