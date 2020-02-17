@@ -1,12 +1,15 @@
 package net.guides.view;
 
-import net.guides.model.Client;
+import net.guides.model.Event;
 import net.guides.view.entity.ClientDetail;
+import net.guides.view.entity.EventDetail;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Properties;
 
 public class SwingView {
@@ -19,6 +22,7 @@ public class SwingView {
     private JButton editButton;
     private JButton removeButton;
     private ClientDetail clientDetail;
+    private EventDetail eventDetail;
 
     public SwingView(Properties swingProperties) {
         window = new JFrame(swingProperties.getProperty(WINDOW_TITLE_KEY));
@@ -32,7 +36,7 @@ public class SwingView {
         listClientsView = new ListTableView();
         listClientsView.addToContainer(window, BorderLayout.CENTER);
         clientDetail = new ClientDetail(properties);
-        clientDetail.pack();
+        eventDetail = new EventDetail(properties);
         populateButton();
         window.add(buttonPanel, BorderLayout.SOUTH);
         window.pack();
@@ -45,14 +49,14 @@ public class SwingView {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clientDetail.presentAddRecord();
+                eventDetail.presentAddRecord();
             }
         });
         editButton = new JButton("Edit");
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clientDetail.presentEditRecord(new Client(1, "DummyFirstName", "DummyLastName", "DummySms", "DummyEmail"));
+                eventDetail.presentEditRecord(new Event(1, "This event tile", new Date()));
             }
         });
         removeButton = new JButton("Remove");
