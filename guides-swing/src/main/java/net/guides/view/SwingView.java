@@ -1,6 +1,5 @@
 package net.guides.view;
 
-import net.guides.model.Event;
 import net.guides.model.PaymentType;
 import net.guides.view.entity.ClientDetail;
 import net.guides.view.entity.EventDetail;
@@ -11,7 +10,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.Properties;
 
 public class SwingView {

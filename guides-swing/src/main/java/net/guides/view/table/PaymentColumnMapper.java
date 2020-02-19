@@ -30,7 +30,7 @@ public class PaymentColumnMapper implements ColumnMapper<Payment> {
                 result = data.getPaymentDate();
                 break;
             case 3:
-                result = data.getPaymentType();
+                result = data.getPaymentTypeId();
                 break;
             default:
                 throw new IllegalStateException("This should never be executed... "+column);
