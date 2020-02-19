@@ -18,7 +18,7 @@ public class SwingView {
     private Properties properties;
     private DataAccessFacade dataAccessFacade;
     private JFrame window;
-    private ListTableView listClientsView;
+    private TabbedListTableView listClientsView;
     private JPanel buttonPanel;
     private JButton addButton;
     private JButton editButton;
@@ -37,7 +37,7 @@ public class SwingView {
 
     public void start() {
         window.setVisible(true);
-        listClientsView = new ListTableView(dataAccessFacade);
+        listClientsView = new TabbedListTableView(dataAccessFacade);
         listClientsView.addToContainer(window, BorderLayout.CENTER);
         clientDetail = new ClientDetail(properties);
         eventDetail = new EventDetail(properties);
