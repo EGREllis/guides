@@ -1,5 +1,6 @@
 package net.guides.view;
 
+import net.guides.data.DataAccessFacade;
 import net.guides.model.PaymentType;
 import net.guides.view.entity.ClientDetail;
 import net.guides.view.entity.EventDetail;
@@ -15,6 +16,7 @@ import java.util.Properties;
 public class SwingView {
     private static final String WINDOW_TITLE_KEY = "window.title";
     private Properties properties;
+    private DataAccessFacade dataAccessFacade;
     private JFrame window;
     private ListTableView listClientsView;
     private JPanel buttonPanel;
@@ -25,7 +27,8 @@ public class SwingView {
     private EventDetail eventDetail;
     private PaymentTypeDetail paymentTypeDetail;
 
-    public SwingView(Properties swingProperties) {
+    public SwingView(Properties swingProperties, DataAccessFacade facade) {
+        this.dataAccessFacade = facade;
         window = new JFrame(swingProperties.getProperty(WINDOW_TITLE_KEY));
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setLayout(new BorderLayout());
@@ -34,7 +37,7 @@ public class SwingView {
 
     public void start() {
         window.setVisible(true);
-        listClientsView = new ListTableView();
+        listClientsView = new ListTableView(dataAccessFacade);
         listClientsView.addToContainer(window, BorderLayout.CENTER);
         clientDetail = new ClientDetail(properties);
         eventDetail = new EventDetail(properties);

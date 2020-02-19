@@ -5,12 +5,14 @@ import java.util.List;
 
 public class ListTableModel<T> extends AbstractTableModel {
     private final ColumnMapper<T> rowMapper;
-    private final List<T> data;
+    private final Loader<T> loader;
+    private List<T> data;
 
 
-    public ListTableModel(List<T> data, ColumnMapper<T> mapper) {
-        this.data = data;
+    public ListTableModel(Loader<T> loader, ColumnMapper<T> mapper) {
         this.rowMapper = mapper;
+        this.loader = loader;
+        data = loader.load();
     }
 
     @Override
@@ -36,5 +38,10 @@ public class ListTableModel<T> extends AbstractTableModel {
     @Override
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
+    }
+
+    public void update() {
+        data = loader.load();
+        this.fireTableDataChanged();
     }
 }

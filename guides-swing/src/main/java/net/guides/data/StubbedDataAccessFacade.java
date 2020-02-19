@@ -76,7 +76,7 @@ public class StubbedDataAccessFacade implements DataAccessFacade {
     }
 
     @Override
-    public List<Payment> getPayments() {
+    public List<Payment> getAllPayments() {
         return payments;
     }
 

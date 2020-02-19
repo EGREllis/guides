@@ -1,5 +1,7 @@
 package net.guides.main;
 
+import net.guides.data.DataAccessFacade;
+import net.guides.data.StubbedDataAccessFacade;
 import net.guides.view.SwingView;
 
 import java.io.IOException;
@@ -16,7 +18,8 @@ public class SwingMain {
         } catch (IOException ioe) {
             throw new IllegalStateException();
         }
-        SwingView view = new SwingView(swingProperties);
+        DataAccessFacade facade = new StubbedDataAccessFacade();
+        SwingView view = new SwingView(swingProperties, facade);
         view.start();
     }
 }

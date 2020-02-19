@@ -21,7 +21,7 @@ public class PaymentTypeColumnMapper implements ColumnMapper<PaymentType> {
         Object result;
         switch (column) {
             case 0:
-                result = data.toString();
+                result = data.getDescription();
                 break;
             default:
                 throw new IllegalStateException("This should never be executed... "+column);

@@ -1,8 +1,10 @@
 package net.guides.view;
 
-import net.guides.model.Client;
-import net.guides.model.Payment;
-import net.guides.model.PaymentType;
+import net.guides.data.DataAccessFacade;
+import net.guides.view.loader.ClientLoader;
+import net.guides.view.loader.EventLoader;
+import net.guides.view.loader.PaymentLoader;
+import net.guides.view.loader.PaymentTypeLoader;
 import net.guides.view.table.ClientColumnMapper;
 import net.guides.view.table.EventColumnMapper;
 import net.guides.view.table.PaymentColumnMapper;
@@ -11,30 +13,28 @@ import net.guides.view.table.PaymentTypeColumnMapper;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 
 public class ListTableView {
     private JTabbedPane tabbedPane;
     private java.util.List<JScrollPane> scrollPanes;
     private java.util.List<JTable> tables;
 
-    public ListTableView() {
+    public ListTableView(DataAccessFacade dataAccessFacade) {
         tabbedPane = new JTabbedPane();
         scrollPanes = new ArrayList<>();
         tables = new ArrayList<>();
 
-        JTable clientTable = new JTable(new ListTableModel<Client>(
-                Arrays.asList(new Client(1, "Gary", "Blower", "07853000000", "a@b")),
+        JTable clientTable = new JTable(new ListTableModel<>(
+                new ClientLoader(dataAccessFacade),
                 new ClientColumnMapper()));
-        JTable eventTable = new JTable(new ListTableModel<net.guides.model.Event>(
-                Arrays.asList(new net.guides.model.Event(1, "Test date", new Date())),
+        JTable eventTable = new JTable(new ListTableModel<>(
+                new EventLoader(dataAccessFacade),
                 new EventColumnMapper()));
-        JTable paymentTable = new JTable(new ListTableModel<Payment>(
-                Arrays.asList(new Payment(0, 0, 0, 1, new Date())),
+        JTable paymentTable = new JTable(new ListTableModel<>(
+                new PaymentLoader(dataAccessFacade),
                 new PaymentColumnMapper()));
-        JTable paymentTypeTable = new JTable(new ListTableModel<PaymentType>(
-                Arrays.asList(new PaymentType(1, "Cash")),
+        JTable paymentTypeTable = new JTable(new ListTableModel<>(
+                new PaymentTypeLoader(dataAccessFacade),
                 new PaymentTypeColumnMapper()));
 
         tables.add(clientTable);

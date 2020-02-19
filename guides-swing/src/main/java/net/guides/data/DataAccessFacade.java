@@ -20,7 +20,7 @@ public interface DataAccessFacade {
     PaymentType getPaymentType(int paymentTypeId);
     boolean addPaymentType(PaymentType paymentType);
     boolean removePaymentType(int paymentTypeId);
-    List<Payment> getPayments();
+    List<Payment> getAllPayments();
     Payment getPayment(int paymentId);
     boolean addPayment(Payment payment);
     boolean removePayment(int paymentId);
