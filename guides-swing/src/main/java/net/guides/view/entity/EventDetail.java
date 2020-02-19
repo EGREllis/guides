@@ -19,11 +19,8 @@ public class EventDetail implements Detail<Event> {
     private static final String EVENT_DETAIL_EDIT_BUTTON_KEY = "event.detail.edit.button";
     private static final String EVENT_DETAIL_CANCEL_BUTTON_KEY = "event.detail.cancel.button";
     private static final String EVENT_DETAIL_DATE_FORMAT_KEY = "date.format";
-    private final String labelEventTitle;
-    private final String labelStartDate;
     private final String labelAddButton;
     private final String labelEditButton;
-    private final String labelCancelButton;
     private final DateFormat dateFormat;
     private JFrame detailWindow;
     private JTextField title;
@@ -37,17 +34,15 @@ public class EventDetail implements Detail<Event> {
         detailWindow.setVisible(false);
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         detailWindow.setLayout(new GridLayout(3, 2));
-        labelEventTitle = properties.getProperty(EVENT_DETAIL_EVENT_TITLE_KEY);
-        labelStartDate = properties.getProperty(EVENT_DETAIL_START_DATE_KEY);
         labelAddButton = properties.getProperty(EVENT_DETAIL_ADD_BUTTON_KEY);
         labelEditButton = properties.getProperty(EVENT_DETAIL_EDIT_BUTTON_KEY);
-        labelCancelButton = properties.getProperty(EVENT_DETAIL_CANCEL_BUTTON_KEY);
+        String labelCancelButton = properties.getProperty(EVENT_DETAIL_CANCEL_BUTTON_KEY);
         dateFormat = new SimpleDateFormat(properties.getProperty(EVENT_DETAIL_DATE_FORMAT_KEY));
 
-        detailWindow.add(new JLabel(labelEventTitle));
+        detailWindow.add(new JLabel(properties.getProperty(EVENT_DETAIL_EVENT_TITLE_KEY)));
         title = new JTextField();
         detailWindow.add(title);
-        detailWindow.add(new JLabel(labelStartDate));
+        detailWindow.add(new JLabel(properties.getProperty(EVENT_DETAIL_START_DATE_KEY)));
         startDate = new JTextField();
         detailWindow.add(startDate);
         proceedButton = new JButton(labelAddButton);

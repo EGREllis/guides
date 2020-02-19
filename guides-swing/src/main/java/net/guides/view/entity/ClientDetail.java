@@ -17,10 +17,6 @@ public class ClientDetail implements Detail<Client> {
     private static final String CLIENT_DETAIL_ADD_BUTTON_KEY = "client.detail.add.button";
     private static final String CLIENT_DETAIL_EDIT_BUTTON_KEY = "client.detail.edit.button";
     private static final String CLIENT_DETAIL_CANCEL_BUTTON_KEY = "client.detail.cancel.button";
-    private final String labelFirstName;
-    private final String labelLastName;
-    private final String labelSms;
-    private final String labelEmail;
     private final String labelAddButton;
     private final String labelEditButton;
     private final String labelCancelButton;
@@ -38,24 +34,20 @@ public class ClientDetail implements Detail<Client> {
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         detailWindow.setVisible(false);
         detailWindow.setLayout(new GridLayout(5, 2));
-        labelFirstName = properties.getProperty(CLIENT_DETAIL_FIRST_NAME_KEY);
-        labelLastName = properties.getProperty(CLIENT_DETAIL_LAST_NAME_KEY);
-        labelSms = properties.getProperty(CLIENT_DETAIL_SMS_KEY);
-        labelEmail = properties.getProperty(CLIENT_DETAIL_EMAIL_KEY);
         labelAddButton = properties.getProperty(CLIENT_DETAIL_ADD_BUTTON_KEY);
         labelEditButton = properties.getProperty(CLIENT_DETAIL_EDIT_BUTTON_KEY);
         labelCancelButton = properties.getProperty(CLIENT_DETAIL_CANCEL_BUTTON_KEY);
 
-        detailWindow.add(new JLabel(labelFirstName));
+        detailWindow.add(new JLabel(properties.getProperty(CLIENT_DETAIL_FIRST_NAME_KEY)));
         firstName = new JTextField();
         detailWindow.add(firstName);
-        detailWindow.add(new JLabel(labelLastName));
+        detailWindow.add(new JLabel(properties.getProperty(CLIENT_DETAIL_LAST_NAME_KEY)));
         lastName = new JTextField();
         detailWindow.add(lastName);
-        detailWindow.add(new JLabel(labelSms));
+        detailWindow.add(new JLabel(properties.getProperty(CLIENT_DETAIL_SMS_KEY)));
         sms = new JTextField();
         detailWindow.add(sms);
-        detailWindow.add(new JLabel(labelEmail));
+        detailWindow.add(new JLabel(properties.getProperty(CLIENT_DETAIL_EMAIL_KEY)));
         email = new JTextField();
         detailWindow.add(email);
 

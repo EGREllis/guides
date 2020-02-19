@@ -29,13 +29,9 @@ public class PaymentDetail implements Detail<Payment> {
     private final DataAccessFacade dataAccessFacade;
     private final JFrame detailWindow;
     private final JComboBox<Client> clientJComboBox;
-    private final String clientLabel;
     private final JComboBox<Event> eventJComboBox;
-    private final String eventLabel;
     private final JTextField paymentDate;
-    private final String paymentDateLabel;
     private final JComboBox<PaymentType> paymentTypeJComboBox;
-    private final String paymentTypeLabel;
     private final String addButtonLabel;
     private final String editButtonLabel;
     private final String cancelButtonLabel;
@@ -59,26 +55,22 @@ public class PaymentDetail implements Detail<Payment> {
         addButtonLabel = properties.getProperty(PAYMENT_DETAIL_ADD_BUTTON_KEY);
         editButtonLabel = properties.getProperty(PAYMENT_DETAIL_EDIT_BUTTON_KEY);
         cancelButtonLabel = properties.getProperty(PAYMENT_DETAIL_CANCEL_BUTTON_KEY);
-        clientLabel = properties.getProperty(PAYMENT_DETAIL_CLIENT_KEY);
-        eventLabel = properties.getProperty(PAYMENT_DETAIL_EVENT_KEY);
-        paymentDateLabel = properties.getProperty(PAYMENT_DETAIL_DATE_KEY);
-        paymentTypeLabel = properties.getProperty(PAYMENT_DETAIL_PAYMENT_TYPE_KEY);
 
-        detailWindow.add(new JLabel(eventLabel));
+        detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_EVENT_KEY)));
         eventJComboBox = new JComboBox<>();
         eventIdText = new JTextField();
         detailWindow.add(eventIdText);
 
-        detailWindow.add(new JLabel(clientLabel));
+        detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_CLIENT_KEY)));
         clientJComboBox = new JComboBox<>();
         clientIdText = new JTextField();
         detailWindow.add(clientIdText);
 
-        detailWindow.add(new JLabel(paymentDateLabel));
+        detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_DATE_KEY)));
         paymentDate = new JTextField();
         detailWindow.add(paymentDate);
 
-        detailWindow.add(new JLabel(paymentTypeLabel));
+        detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_PAYMENT_TYPE_KEY)));
         paymentTypeJComboBox = new JComboBox<>();
         paymentTypeIdText = new JTextField();
         detailWindow.add(paymentTypeIdText);
@@ -103,6 +95,7 @@ public class PaymentDetail implements Detail<Payment> {
         clientIdText.setText(Constants.BLANK);
         eventIdText.setText(Constants.BLANK);
         paymentTypeIdText.setText(Constants.BLANK);
+        proceedButton.setText(addButtonLabel);
         detailWindow.setVisible(true);
     }
 
@@ -113,6 +106,7 @@ public class PaymentDetail implements Detail<Payment> {
         eventIdText.setText(Integer.toString(record.getEventId()));
         paymentTypeIdText.setText(Integer.toString(record.getPaymentTypeId()));
         paymentDate.setText(dateFormat.format(record.getPaymentDate()));
+        proceedButton.setText(editButtonLabel);
         detailWindow.setVisible(true);
     }
 }

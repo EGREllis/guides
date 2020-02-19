@@ -14,7 +14,6 @@ public class PaymentTypeDetail implements Detail<PaymentType> {
     private static final String PAYMENT_TYPE_ADD_BUTTON_KEY = "payment.type.detail.add.button";
     private static final String PAYMENT_TYPE_EDIT_BUTTON_KEY = "payment.type.detail.edit.button";
     private static final String PAYMENT_TYPE_CANCEL_BUTTON_KEY = "payment.type.detail.cancel.button";
-    private final String descriptionLabel;
     private final String addButtonLabel;
     private final String editButtonLabel;
     private final String cancelButtonLabel;
@@ -29,7 +28,6 @@ public class PaymentTypeDetail implements Detail<PaymentType> {
         detailWindow.setVisible(false);
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         detailWindow.setLayout(new GridLayout(2, 1));
-        descriptionLabel = properties.getProperty(PAYMENT_TYPE_DESCRIPTION_KEY);
         addButtonLabel = properties.getProperty(PAYMENT_TYPE_ADD_BUTTON_KEY);
         editButtonLabel = properties.getProperty(PAYMENT_TYPE_EDIT_BUTTON_KEY);
         cancelButtonLabel = properties.getProperty(PAYMENT_TYPE_CANCEL_BUTTON_KEY);
@@ -48,6 +46,7 @@ public class PaymentTypeDetail implements Detail<PaymentType> {
     public void presentAddRecord() {
         detailWindow.setVisible(false);
         description.setText(Constants.BLANK);
+        proceedButton.setText(addButtonLabel);
         detailWindow.setVisible(true);
         id = null;
     }
@@ -56,6 +55,7 @@ public class PaymentTypeDetail implements Detail<PaymentType> {
     public void presentEditRecord(PaymentType record) {
         detailWindow.setVisible(false);
         description.setText(record.getDescription());
+        proceedButton.setText(editButtonLabel);
         detailWindow.setVisible(true);
         id = record.getId();
     }
