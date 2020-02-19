@@ -1,16 +1,24 @@
 package net.guides.view;
 
 import net.guides.data.DataAccessFacade;
-import net.guides.model.PaymentType;
 import net.guides.view.entity.ClientDetail;
 import net.guides.view.entity.EventDetail;
+import net.guides.view.entity.PaymentDetail;
 import net.guides.view.entity.PaymentTypeDetail;
+import net.guides.view.loader.ClientLoader;
+import net.guides.view.loader.EventLoader;
+import net.guides.view.loader.PaymentLoader;
+import net.guides.view.loader.PaymentTypeLoader;
+import net.guides.view.tab.TabImpl;
+import net.guides.view.table.ClientColumnMapper;
+import net.guides.view.table.EventColumnMapper;
+import net.guides.view.table.PaymentColumnMapper;
+import net.guides.view.table.PaymentTypeColumnMapper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class SwingView {
@@ -19,10 +27,6 @@ public class SwingView {
     private DataAccessFacade dataAccessFacade;
     private JFrame window;
     private TabbedListTableView listClientsView;
-    private JPanel buttonPanel;
-    private JButton addButton;
-    private JButton editButton;
-    private JButton removeButton;
     private ClientDetail clientDetail;
     private EventDetail eventDetail;
     private PaymentTypeDetail paymentTypeDetail;
@@ -37,36 +41,18 @@ public class SwingView {
 
     public void start() {
         window.setVisible(true);
-        listClientsView = new TabbedListTableView(dataAccessFacade);
+
+        List<Tab> tabs = new ArrayList<Tab>();
+        tabs.add(new TabImpl<>("Clients", new ClientLoader(dataAccessFacade), new ClientColumnMapper(), new ClientDetail(properties)));
+        tabs.add(new TabImpl<>("Events", new EventLoader(dataAccessFacade), new EventColumnMapper(), new EventDetail(properties)));
+        tabs.add(new TabImpl<>("Payment Types", new PaymentTypeLoader(dataAccessFacade), new PaymentTypeColumnMapper(), new PaymentTypeDetail(properties)));
+        tabs.add(new TabImpl<>("Payments", new PaymentLoader(dataAccessFacade), new PaymentColumnMapper(), new PaymentDetail(properties, dataAccessFacade)));
+
+        listClientsView = new TabbedListTableView(dataAccessFacade, tabs);
         listClientsView.addToContainer(window, BorderLayout.CENTER);
         clientDetail = new ClientDetail(properties);
         eventDetail = new EventDetail(properties);
         paymentTypeDetail = new PaymentTypeDetail(properties);
-        populateButton();
-        window.add(buttonPanel, BorderLayout.SOUTH);
         window.pack();
-    }
-
-    private void populateButton() {
-        buttonPanel =  new JPanel();
-        buttonPanel.setLayout(new GridLayout(1, 2));
-        addButton = new JButton("Add");
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                paymentTypeDetail.presentAddRecord();
-            }
-        });
-        editButton = new JButton("Edit");
-        editButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                paymentTypeDetail.presentEditRecord(new PaymentType(1, "Cash"));
-            }
-        });
-        removeButton = new JButton("Remove");
-        buttonPanel.add(addButton);
-        buttonPanel.add(editButton);
-        buttonPanel.add(removeButton);
     }
 }

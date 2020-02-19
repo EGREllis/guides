@@ -24,7 +24,7 @@ public class PaymentDetail implements Detail<Payment> {
     private static final String PAYMENT_DETAIL_ADD_BUTTON_KEY = "payment.detail.add.button";
     private static final String PAYMENT_DETAIL_EDIT_BUTTON_KEY = "payment.detail.edit.button";
     private static final String PAYMENT_DETAIL_CANCEL_BUTTON_KEY = "payment.detail.cancel.button";
-    private static final String PAYMENT_DETAIL_DATE_FORMAT_KEY = "yyyyMMdd";
+    private static final String PAYMENT_DETAIL_DATE_FORMAT_KEY = "date.format";
     private final DateFormat dateFormat;
     private final DataAccessFacade dataAccessFacade;
     private final JFrame detailWindow;
