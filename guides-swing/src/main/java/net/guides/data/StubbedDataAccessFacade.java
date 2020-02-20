@@ -34,6 +34,11 @@ public class StubbedDataAccessFacade implements DataAccessFacade {
     }
 
     @Override
+    public boolean updateClient(Client client) {
+        return false;
+    }
+
+    @Override
     public boolean removeClient(int clientId) {
         return false;
     }
@@ -50,6 +55,11 @@ public class StubbedDataAccessFacade implements DataAccessFacade {
 
     @Override
     public boolean addEvent(Event event) {
+        return false;
+    }
+
+    @Override
+    public boolean updateEvent(Event event) {
         return false;
     }
 
@@ -74,6 +84,11 @@ public class StubbedDataAccessFacade implements DataAccessFacade {
     }
 
     @Override
+    public boolean updatePaymentType(PaymentType paymentType) {
+        return false;
+    }
+
+    @Override
     public boolean removePaymentType(int paymentTypeId) {
         return false;
     }
@@ -90,6 +105,11 @@ public class StubbedDataAccessFacade implements DataAccessFacade {
 
     @Override
     public boolean addPayment(Payment payment) {
+        return false;
+    }
+
+    @Override
+    public boolean updatePayment(Payment payment) {
         return false;
     }
 

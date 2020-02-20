@@ -37,6 +37,10 @@ public class Payment {
         return paymentDate;
     }
 
+    public Payment replaceId(int paymentId) {
+        return new Payment(paymentId, clientId, eventId, paymentTypeId, paymentDate);
+    }
+
     @Override
     public String toString() {
         return String.format("Payment:%1$d ClientId:%2$d EventId:%3$d PaymentType:%4$s PaymentDate:%5$s", paymentId, clientId, eventId, paymentTypeId, paymentDate);

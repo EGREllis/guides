@@ -11,17 +11,21 @@ public interface DataAccessFacade {
     List<Client> getAllClients();
     Client getClient(int clientId);
     boolean addClient(Client client);
+    boolean updateClient(Client client);
     boolean removeClient(int clientId);
     List<Event> getAllEvents();
     Event getEvent(int eventId);
     boolean addEvent(Event event);
+    boolean updateEvent(Event event);
     boolean removeEvent(int eventId);
     List<PaymentType> getAllPaymentTypes();
     PaymentType getPaymentType(int paymentTypeId);
     boolean addPaymentType(PaymentType paymentType);
+    boolean updatePaymentType(PaymentType paymentType);
     boolean removePaymentType(int paymentTypeId);
     List<Payment> getAllPayments();
     Payment getPayment(int paymentId);
     boolean addPayment(Payment payment);
+    boolean updatePayment(Payment payment);
     boolean removePayment(int paymentId);
 }

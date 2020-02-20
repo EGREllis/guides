@@ -35,6 +35,10 @@ public class Client {
         return email;
     }
 
+    public Client replaceId(int clientId) {
+        return new Client(clientId, firstName, lastName, sms, email);
+    }
+
     @Override
     public String toString() {
         return String.format("ClientId:%1$d (%2$s, %3$s - %4$s, %5$s", clientId, firstName, lastName, sms, email);

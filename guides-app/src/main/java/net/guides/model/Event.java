@@ -25,6 +25,10 @@ public class Event {
         return startDate;
     }
 
+    public Event replaceId(int eventId) {
+        return new Event(eventId, title, startDate);
+    }
+
     @Override
     public String toString() {
         return String.format("EventId:%1$d %2$s at %3$s", eventId, title, startDate);

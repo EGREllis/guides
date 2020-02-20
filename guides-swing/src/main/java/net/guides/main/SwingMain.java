@@ -1,6 +1,7 @@
 package net.guides.main;
 
 import net.guides.data.DataAccessFacade;
+import net.guides.data.InMemoryDataAccessFacade;
 import net.guides.data.StubbedDataAccessFacade;
 import net.guides.view.SwingView;
 
@@ -18,7 +19,7 @@ public class SwingMain {
         } catch (IOException ioe) {
             throw new IllegalStateException();
         }
-        DataAccessFacade facade = new StubbedDataAccessFacade();
+        DataAccessFacade facade = InMemoryDataAccessFacade.stockedWithDummyData();
         SwingView view = new SwingView(swingProperties, facade);
         view.start();
     }

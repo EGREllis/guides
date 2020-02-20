@@ -17,6 +17,10 @@ public class PaymentType {
         return description;
     }
 
+    public PaymentType replaceId(int paymentTypeId) {
+        return new PaymentType(paymentTypeId, description);
+    }
+
     @Override
     public boolean equals(Object obj) {
         boolean result = false;
