@@ -23,13 +23,15 @@ import java.util.Properties;
 
 public class SwingView {
     private static final String WINDOW_TITLE_KEY = "window.title";
+    private static final String CLIENT_TAB_PREFIX = "client.tab";
+    private static final String EVENT_TAB_PREFIX = "event.tab";
+    private static final String PAYMENT_TYPE_TAB_PREFIX = "payment.type.tab";
+    private static final String PAYMENT_TAB_PREFIX = "payment.tab";
+
     private Properties properties;
     private DataAccessFacade dataAccessFacade;
     private JFrame window;
     private TabbedListTableView listClientsView;
-    private ClientDetail clientDetail;
-    private EventDetail eventDetail;
-    private PaymentTypeDetail paymentTypeDetail;
 
     public SwingView(Properties swingProperties, DataAccessFacade facade) {
         this.dataAccessFacade = facade;
@@ -42,17 +44,14 @@ public class SwingView {
     public void start() {
         window.setVisible(true);
 
-        List<Tab> tabs = new ArrayList<Tab>();
-        tabs.add(new TabImpl<>("Clients", new ClientLoader(dataAccessFacade), new ClientColumnMapper(), new ClientDetail(properties)));
-        tabs.add(new TabImpl<>("Events", new EventLoader(dataAccessFacade), new EventColumnMapper(), new EventDetail(properties)));
-        tabs.add(new TabImpl<>("Payment Types", new PaymentTypeLoader(dataAccessFacade), new PaymentTypeColumnMapper(), new PaymentTypeDetail(properties)));
-        tabs.add(new TabImpl<>("Payments", new PaymentLoader(dataAccessFacade), new PaymentColumnMapper(), new PaymentDetail(properties, dataAccessFacade)));
+        List<Tab> tabs = new ArrayList<>();
+        tabs.add(new TabImpl<>("Clients", new ClientLoader(dataAccessFacade), new ClientColumnMapper(), new ClientDetail(properties), properties, CLIENT_TAB_PREFIX));
+        tabs.add(new TabImpl<>("Events", new EventLoader(dataAccessFacade), new EventColumnMapper(), new EventDetail(properties), properties, EVENT_TAB_PREFIX));
+        tabs.add(new TabImpl<>("Payment Types", new PaymentTypeLoader(dataAccessFacade), new PaymentTypeColumnMapper(), new PaymentTypeDetail(properties), properties, PAYMENT_TYPE_TAB_PREFIX));
+        tabs.add(new TabImpl<>("Payments", new PaymentLoader(dataAccessFacade), new PaymentColumnMapper(), new PaymentDetail(properties, dataAccessFacade), properties, PAYMENT_TAB_PREFIX));
 
         listClientsView = new TabbedListTableView(dataAccessFacade, tabs);
         listClientsView.addToContainer(window, BorderLayout.CENTER);
-        clientDetail = new ClientDetail(properties);
-        eventDetail = new EventDetail(properties);
-        paymentTypeDetail = new PaymentTypeDetail(properties);
         window.pack();
     }
 }
