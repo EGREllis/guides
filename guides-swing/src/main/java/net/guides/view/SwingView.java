@@ -1,10 +1,10 @@
 package net.guides.view;
 
 import net.guides.data.DataAccessFacade;
-import net.guides.view.entity.ClientDetail;
-import net.guides.view.entity.EventDetail;
-import net.guides.view.entity.PaymentDetail;
-import net.guides.view.entity.PaymentTypeDetail;
+import net.guides.view.detail.ClientDetail;
+import net.guides.view.detail.EventDetail;
+import net.guides.view.detail.PaymentDetail;
+import net.guides.view.detail.PaymentTypeDetail;
 import net.guides.view.loader.ClientLoader;
 import net.guides.view.loader.EventLoader;
 import net.guides.view.loader.PaymentLoader;

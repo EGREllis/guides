@@ -1,4 +1,4 @@
-package net.guides.view.entity;
+package net.guides.view.detail;
 
 import net.guides.data.DataAccessFacade;
 import net.guides.model.Client;

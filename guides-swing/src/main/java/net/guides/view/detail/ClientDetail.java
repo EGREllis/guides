@@ -1,4 +1,4 @@
-package net.guides.view.entity;
+package net.guides.view.detail;
 
 import static net.guides.view.Constants.BLANK;
 import net.guides.model.Client;

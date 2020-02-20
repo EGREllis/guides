@@ -1,4 +1,4 @@
-package net.guides.view.entity;
+package net.guides.view.detail;
 
 import net.guides.model.Event;
 import net.guides.view.Detail;
