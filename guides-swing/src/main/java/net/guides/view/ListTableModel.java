@@ -44,4 +44,8 @@ public class ListTableModel<T> extends AbstractTableModel {
         data = loader.load();
         this.fireTableDataChanged();
     }
+
+    public List<T> getList() {
+        return data;
+    }
 }

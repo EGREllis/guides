@@ -3,12 +3,14 @@ package net.guides.view.tab;
 import net.guides.view.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Properties;
 
-public class TabImpl<T> implements Tab {
+public class TabImpl<T> implements Tab, ListSelectionListener {
     private static final String TAB_ADD_BUTTON_TEXT_KEY = "%1$s.add.button";
     private static final String TAB_EDIT_BUTTON_TEXT_KEY = "%1$s.edit.button";
     private static final String TAB_DELETE_BUTTON_TEXT_KEY = "%1$s.delete.button";
@@ -18,6 +20,8 @@ public class TabImpl<T> implements Tab {
     private final Detail<T> detail;
     private final String tabName;
     private final String prefix;
+    private JTable table;
+    private ListTableModel<T> listTableModel;
 
     public TabImpl(String tabName, Loader<T> loader, ColumnMapper<T> mapper, Detail<T> detail, Properties properties, String prefix) {
         this.tabName = tabName;
@@ -33,7 +37,8 @@ public class TabImpl<T> implements Tab {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        JTable table = new JTable(new ListTableModel<>(loader, mapper));
+        listTableModel = new ListTableModel<>(loader, mapper);
+        table = new JTable(listTableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(400, 100));
         table.setFillsViewportHeight(true);
@@ -76,7 +81,11 @@ public class TabImpl<T> implements Tab {
     }
 
     private T getSelectedRecord() {
-        //TODO: Fix this to point to the record selected in the table
-        return loader.load().get(0);
+        return listTableModel.getList().get(table.getSelectedRow());
+    }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        System.out.println(String.format("First:%1$d Second: $2$d Value: %3$s", e.getFirstIndex(), e.getLastIndex(), e.getValueIsAdjusting()));
     }
 }

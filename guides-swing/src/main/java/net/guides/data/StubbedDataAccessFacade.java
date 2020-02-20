@@ -10,7 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 public class StubbedDataAccessFacade implements DataAccessFacade {
-    private static final List<Client> clients = Arrays.asList(new Client(1, "Gary", "Blower", "07853000000", "a@b"));
+    private static final List<Client> clients = Arrays.asList(
+            new Client(1, "Gary", "Blower", "07853000000", "a@b"),
+            new Client(2, "Bob","Coppins", "07853200900", "bob@evil")
+    );
     private static final List<Event> events = Arrays.asList(new Event(1, "Demo event", new Date()));
     private static final List<PaymentType> paymentTypes = Arrays.asList(new PaymentType(1, "Card"));
     private static final List<Payment> payments = Arrays.asList(new Payment(1, 1, 1, 1, new Date()));
