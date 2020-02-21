@@ -3,7 +3,7 @@ package net.guides.view;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class ListTableModel<T> extends AbstractTableModel {
+public class ListTableModel<T> extends AbstractTableModel implements Listener {
     private final ColumnMapper<T> rowMapper;
     private final Loader<T> loader;
     private List<T> data;
@@ -40,12 +40,13 @@ public class ListTableModel<T> extends AbstractTableModel {
         return getValueAt(0, c).getClass();
     }
 
-    public void update() {
-        data = loader.load();
-        this.fireTableDataChanged();
-    }
-
     public List<T> getList() {
         return data;
+    }
+
+    @Override
+    public void alert() {
+        data = loader.load();
+        this.fireTableDataChanged();
     }
 }

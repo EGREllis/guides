@@ -1,14 +1,18 @@
 package net.guides.view.detail;
 
 import net.guides.model.Event;
+import net.guides.view.Command;
 import net.guides.view.Detail;
 
 import static net.guides.view.Constants.BLANK;
 
 import javax.swing.*;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 public class EventDetail implements Detail<Event> {
@@ -28,8 +32,13 @@ public class EventDetail implements Detail<Event> {
     private JButton proceedButton;
     private JButton cancelButton;
     private Integer id;
+    private final ActionListener addButtonListener;
+    private final ActionListener editButtonListener;
+    private final Command<Event> addEventCommand;
+    private final Command<Event> editEventCommand;
+    private final Command<Event> deleteEventCommand;
 
-    public EventDetail(Properties properties) {
+    public EventDetail(Properties properties, final Command<Event> addCommand, final Command<Event> editCommand, Command<Event> deleteCommand) {
         detailWindow = new JFrame(properties.getProperty(EVENT_DETAIL_TITLE_KEY));
         detailWindow.setVisible(false);
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -50,7 +59,37 @@ public class EventDetail implements Detail<Event> {
         cancelButton = new JButton(labelCancelButton);
         detailWindow.add(cancelButton);
 
+        this.addEventCommand = addCommand;
+        this.editEventCommand = editCommand;
+        this.deleteEventCommand = deleteCommand;
+
+        addButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Event thisEvent = getRecord();
+                addCommand.execute(thisEvent);
+            }
+        };
+        editButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Event thisEvent = getRecord();
+                editCommand.execute(thisEvent);
+            }
+        };
+
         detailWindow.pack();
+    }
+
+    private Event getRecord() {
+        String titleText = title.getText();
+        Date eventStartDate;
+        try {
+            eventStartDate = dateFormat.parse(startDate.getText());
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+        return new Event(id, titleText, eventStartDate);
     }
 
     public void presentAddRecord() {
@@ -58,6 +97,8 @@ public class EventDetail implements Detail<Event> {
         title.setText(BLANK);
         startDate.setText(BLANK);
         proceedButton.setText(labelAddButton);
+        proceedButton.addActionListener(addButtonListener);
+        proceedButton.removeActionListener(editButtonListener);
         detailWindow.setVisible(true);
         id = null;
     }
@@ -67,6 +108,8 @@ public class EventDetail implements Detail<Event> {
         title.setText(event.getTitle());
         startDate.setText(dateFormat.format(event.getStartDate()));
         proceedButton.setText(labelEditButton);
+        proceedButton.addActionListener(editButtonListener);
+        proceedButton.removeActionListener(addButtonListener);
         detailWindow.setVisible(true);
         id = event.getEventId();
     }

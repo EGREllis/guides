@@ -3,17 +3,17 @@ package net.guides.model;
 import java.util.Date;
 
 public class Event {
-    private int eventId;
+    private Integer eventId;
     private String title;
     private Date startDate;
 
-    public Event(int eventId, String title, Date startDate) {
+    public Event(Integer eventId, String title, Date startDate) {
         this.eventId = eventId;
         this.title = title;
         this.startDate = startDate;
     }
 
-    public int getEventId() {
+    public Integer getEventId() {
         return eventId;
     }
 
@@ -31,7 +31,7 @@ public class Event {
 
     @Override
     public String toString() {
-        return String.format("EventId:%1$d %2$s at %3$s", eventId, title, startDate);
+        return String.format("EventId:%1$s %2$s at %3$s", eventId, title, startDate);
     }
 
     @Override

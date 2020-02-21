@@ -5,13 +5,17 @@ import net.guides.model.Client;
 import net.guides.model.Event;
 import net.guides.model.Payment;
 import net.guides.model.PaymentType;
+import net.guides.view.Command;
 import net.guides.view.Constants;
 import net.guides.view.Detail;
 
 import javax.swing.*;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -40,11 +44,17 @@ public class PaymentDetail implements Detail<Payment> {
     private List<Client> clientList;
     private List<Event> eventList;
     private List<PaymentType> paymentTypeList;
+    private Integer id;
     private final JTextField eventIdText;
     private final JTextField clientIdText;
     private final JTextField paymentTypeIdText;
+    private final Command<Payment> addCommand;
+    private final Command<Payment> editCommand;
+    private final Command<Payment> deleteCommand;
+    private final ActionListener addListener;
+    private final ActionListener editListener;
 
-    public PaymentDetail(Properties properties, DataAccessFacade dataAccessFacade) {
+    public PaymentDetail(Properties properties, DataAccessFacade dataAccessFacade, final Command<Payment> addCommand, final Command<Payment> editCommand, Command<Payment> deleteCommand) {
         this.dataAccessFacade = dataAccessFacade;
         this.dateFormat = new SimpleDateFormat(properties.getProperty(PAYMENT_DETAIL_DATE_FORMAT_KEY));
         detailWindow = new JFrame(properties.getProperty(PAYMENT_DETAIL_WINDOW_TITLE_KEY));
@@ -83,7 +93,38 @@ public class PaymentDetail implements Detail<Payment> {
         cancelButton.setText(cancelButtonLabel);
         detailWindow.add(cancelButton);
 
+        this.addCommand = addCommand;
+        this.editCommand = editCommand;
+        this.deleteCommand = deleteCommand;
+        this.addListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Payment payment = getRecord();
+                addCommand.execute(payment);
+            }
+        };
+        this.editListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Payment payment = getRecord();
+                editCommand.execute(payment);
+            }
+        };
+
         detailWindow.pack();
+    }
+
+    private Payment getRecord() {
+        int clientId = Integer.parseInt(clientIdText.getText());
+        int eventId = Integer.parseInt(eventIdText.getText());
+        int paymentTypeId = Integer.parseInt(paymentTypeIdText.getText());
+        Date paymentDateValue;
+        try {
+            paymentDateValue = dateFormat.parse(paymentDate.getText());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return new Payment(id, clientId, eventId, paymentTypeId, paymentDateValue);
     }
 
     @Override

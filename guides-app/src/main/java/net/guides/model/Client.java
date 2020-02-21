@@ -1,13 +1,13 @@
 package net.guides.model;
 
 public class Client {
-    private int clientId;
+    private Integer clientId;
     private String firstName;
     private String lastName;
     private String sms;
     private String email;
 
-    public Client(int clientId, String firstName, String lastName, String sms, String email) {
+    public Client(Integer clientId, String firstName, String lastName, String sms, String email) {
         this.clientId = clientId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -15,7 +15,7 @@ public class Client {
         this.email = email;
     }
 
-    public int getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 

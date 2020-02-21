@@ -1,11 +1,16 @@
 package net.guides.view.detail;
 
 import static net.guides.view.Constants.BLANK;
+
+import net.guides.data.DataAccessFacade;
 import net.guides.model.Client;
+import net.guides.view.Command;
 import net.guides.view.Detail;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Properties;
 
 public class ClientDetail implements Detail<Client> {
@@ -17,6 +22,7 @@ public class ClientDetail implements Detail<Client> {
     private static final String CLIENT_DETAIL_ADD_BUTTON_KEY = "client.detail.add.button";
     private static final String CLIENT_DETAIL_EDIT_BUTTON_KEY = "client.detail.edit.button";
     private static final String CLIENT_DETAIL_CANCEL_BUTTON_KEY = "client.detail.cancel.button";
+    private final DataAccessFacade facade;
     private final String labelAddButton;
     private final String labelEditButton;
     private final String labelCancelButton;
@@ -28,8 +34,14 @@ public class ClientDetail implements Detail<Client> {
     private JButton proceedButton;
     private JButton cancelButton;
     private Integer id;
+    private ActionListener addButtonListener;
+    private ActionListener editButtonListener;
+    private Command<Client> addCommand;
+    private Command<Client> editCommand;
+    private Command<Client> deleteCommand;
 
-    public ClientDetail(Properties properties) {
+    public ClientDetail(Properties properties, final DataAccessFacade facade, final Command<Client> addCommand, final Command<Client> editCommand, Command<Client> deleteCommand) {
+        this.facade = facade;
         detailWindow = new JFrame(properties.getProperty(CLIENT_DETAIL_TITLE_KEY));
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         detailWindow.setVisible(false);
@@ -51,11 +63,49 @@ public class ClientDetail implements Detail<Client> {
         email = new JTextField();
         detailWindow.add(email);
 
+        this.addCommand = addCommand;
+        this.editCommand = editCommand;
+        this.deleteCommand = deleteCommand;
+
         proceedButton = new JButton(labelAddButton);
         cancelButton = new JButton(labelCancelButton);
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                detailWindow.setVisible(false);
+                firstName.setText(BLANK);
+                lastName.setText(BLANK);
+                sms.setText(BLANK);
+                email.setText(BLANK);
+                //TODO: Dispatch to update
+            }
+        });
+        addButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Client client = getRecord();
+                addCommand.execute(client);
+            }
+        };
+        editButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Client client = getRecord();
+                editCommand.execute(client);
+            }
+        };
         detailWindow.add(proceedButton);
         detailWindow.add(cancelButton);
         detailWindow.pack();
+    }
+
+    private Client getRecord() {
+        Integer newId = id;
+        String newFirstName = firstName.getText();
+        String newLastName = lastName.getText();
+        String newSms = sms.getText();
+        String newEmail = email.getText();
+        return new Client(newId, newFirstName, newLastName, newSms, newEmail);
     }
 
     public void presentEditRecord(Client client) {
@@ -65,6 +115,8 @@ public class ClientDetail implements Detail<Client> {
         sms.setText(client.getSms());
         email.setText(client.getEmail());
         proceedButton.setText(labelEditButton);
+        proceedButton.addActionListener(editButtonListener);
+        proceedButton.removeActionListener(addButtonListener);
         cancelButton.setText(labelCancelButton);
         detailWindow.setVisible(true);
         id = client.getClientId();
@@ -76,6 +128,8 @@ public class ClientDetail implements Detail<Client> {
         lastName.setText(BLANK);
         sms.setText(BLANK);
         proceedButton.setText(labelAddButton);
+        proceedButton.addActionListener(addButtonListener);
+        proceedButton.removeActionListener(editButtonListener);
         cancelButton.setText(labelCancelButton);
         detailWindow.setVisible(true);
         id = null;

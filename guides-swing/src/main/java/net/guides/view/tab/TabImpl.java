@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Properties;
 
-public class TabImpl<T> implements Tab, ListSelectionListener {
+public class TabImpl<T> implements Tab, Listener {
     private static final String TAB_ADD_BUTTON_TEXT_KEY = "%1$s.add.button";
     private static final String TAB_EDIT_BUTTON_TEXT_KEY = "%1$s.edit.button";
     private static final String TAB_DELETE_BUTTON_TEXT_KEY = "%1$s.delete.button";
@@ -20,6 +20,7 @@ public class TabImpl<T> implements Tab, ListSelectionListener {
     private final Detail<T> detail;
     private final String tabName;
     private final String prefix;
+    private JPanel panel;
     private JTable table;
     private ListTableModel<T> listTableModel;
 
@@ -34,9 +35,8 @@ public class TabImpl<T> implements Tab, ListSelectionListener {
 
     @Override
     public Container getContainer() {
-        JPanel panel = new JPanel();
+        this.panel = new JPanel();
         panel.setLayout(new BorderLayout());
-
         listTableModel = new ListTableModel<>(loader, mapper);
         table = new JTable(listTableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -85,7 +85,7 @@ public class TabImpl<T> implements Tab, ListSelectionListener {
     }
 
     @Override
-    public void valueChanged(ListSelectionEvent e) {
-        System.out.println(String.format("First:%1$d Second: $2$d Value: %3$s", e.getFirstIndex(), e.getLastIndex(), e.getValueIsAdjusting()));
+    public void alert() {
+        listTableModel.alert();
     }
 }
