@@ -1,7 +1,7 @@
 package net.guides.view.detail;
 
 import net.guides.model.Event;
-import net.guides.view.Command;
+import net.guides.controller.Command;
 import net.guides.view.Detail;
 
 import static net.guides.view.Constants.BLANK;

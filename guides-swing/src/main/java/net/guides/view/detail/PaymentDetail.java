@@ -5,7 +5,7 @@ import net.guides.model.Client;
 import net.guides.model.Event;
 import net.guides.model.Payment;
 import net.guides.model.PaymentType;
-import net.guides.view.Command;
+import net.guides.controller.Command;
 import net.guides.view.Constants;
 import net.guides.view.Detail;
 

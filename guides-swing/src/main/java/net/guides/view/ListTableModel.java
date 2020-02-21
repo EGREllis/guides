@@ -1,5 +1,7 @@
 package net.guides.view;
 
+import net.guides.controller.Listener;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 

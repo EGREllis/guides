@@ -4,7 +4,7 @@ import static net.guides.view.Constants.BLANK;
 
 import net.guides.data.DataAccessFacade;
 import net.guides.model.Client;
-import net.guides.view.Command;
+import net.guides.controller.Command;
 import net.guides.view.Detail;
 
 import javax.swing.*;

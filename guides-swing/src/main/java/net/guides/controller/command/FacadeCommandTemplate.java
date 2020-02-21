@@ -1,8 +1,8 @@
-package net.guides.view.command;
+package net.guides.controller.command;
 
 import net.guides.data.DataAccessFacade;
-import net.guides.view.Command;
-import net.guides.view.Listener;
+import net.guides.controller.Command;
+import net.guides.controller.Listener;
 
 import javax.swing.*;
 import java.util.ArrayList;
