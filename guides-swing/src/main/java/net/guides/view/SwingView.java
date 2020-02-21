@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class SwingView {
+    private static final String TAB_TITLE_KEY = "%1$s.title";
     private static final String WINDOW_TITLE_KEY = "window.title";
     private static final String CLIENT_TAB_PREFIX = "client.tab";
     private static final String EVENT_TAB_PREFIX = "event.tab";
@@ -50,63 +51,67 @@ public class SwingView {
         window.setVisible(true);
 
         List<Tab> tabs = new ArrayList<>();
-        tabs.add(createClientTab(properties, dataAccessFacade));
-        tabs.add(createEventTab(properties, dataAccessFacade));
-        tabs.add(createPaymentTypeDetailTab(properties, dataAccessFacade));
-        tabs.add(createPaymentDetailTab(properties, dataAccessFacade));
+        tabs.add(createClientTab(properties, dataAccessFacade, CLIENT_TAB_PREFIX));
+        tabs.add(createEventTab(properties, dataAccessFacade, EVENT_TAB_PREFIX));
+        tabs.add(createPaymentTypeDetailTab(properties, dataAccessFacade, PAYMENT_TYPE_TAB_PREFIX));
+        tabs.add(createPaymentDetailTab(properties, dataAccessFacade, PAYMENT_TAB_PREFIX));
 
         listClientsView = new TabbedListTableView(dataAccessFacade, tabs);
         listClientsView.addToContainer(window, BorderLayout.CENTER);
         window.pack();
     }
 
-    private Tab createClientTab(Properties properties, DataAccessFacade facade) {
+    private Tab createClientTab(Properties properties, DataAccessFacade facade, String prefix) {
         Loader<Client> clientLoader = new ClientLoader(dataAccessFacade);
         ColumnMapper<Client> mapper = new ClientColumnMapper();
         FacadeCommandTemplate<Client> addCommand = new ClientAddCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Client> editCommand = new ClientEditCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Client> deleteCommand = new ClientDeleteCommand(dataAccessFacade, properties);
         Detail<Client> details = new ClientDetail(properties, facade, addCommand, editCommand, deleteCommand);
-        final Tab tab = new TabImpl<>("Clients", clientLoader, mapper, details, properties, CLIENT_TAB_PREFIX);
+        String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
+        final Tab tab = new TabImpl<>(tabTitle, clientLoader, mapper, details, properties, prefix);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
     }
 
-    private Tab createEventTab(Properties properties, DataAccessFacade dataAccessFacade) {
+    private Tab createEventTab(Properties properties, DataAccessFacade dataAccessFacade, String prefix) {
         Loader<Event> eventLoader = new EventLoader(dataAccessFacade);
         ColumnMapper<Event> mapper = new EventColumnMapper();
         FacadeCommandTemplate<Event> addCommand = new EventAddCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Event> editCommand = new EventEditCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Event> deleteCommand = new EventDeleteCommand(dataAccessFacade, properties);
         Detail<Event> details = new EventDetail(properties, addCommand, editCommand, deleteCommand);
-        final Tab tab = new TabImpl<>("Events", eventLoader, mapper, details, properties, EVENT_TAB_PREFIX);
+        String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
+        final Tab tab = new TabImpl<>(tabTitle, eventLoader, mapper, details, properties, prefix);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
     }
 
-    private Tab createPaymentTypeDetailTab(Properties properties, DataAccessFacade dataAccessFacade) {
+    private Tab createPaymentTypeDetailTab(Properties properties, DataAccessFacade dataAccessFacade, String prefix) {
         Loader<PaymentType> paymentTypeLoader = new PaymentTypeLoader(dataAccessFacade);
         ColumnMapper<PaymentType> mapper = new PaymentTypeColumnMapper();
         FacadeCommandTemplate<PaymentType> addCommand = new PaymentTypeAddCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<PaymentType> editCommand = new PaymentTypeEditCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<PaymentType> deleteCommand = new PaymentTypeDeleteCommand(dataAccessFacade, properties);
         Detail<PaymentType> details = new PaymentTypeDetail(properties, addCommand, editCommand, deleteCommand);
-        final Tab tab = new TabImpl<>("Payment type", paymentTypeLoader, mapper, details, properties, PAYMENT_TYPE_TAB_PREFIX);
+        String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
+        final Tab tab = new TabImpl<>(tabTitle, paymentTypeLoader, mapper, details, properties, prefix);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
     }
 
-    private Tab createPaymentDetailTab(Properties properties, DataAccessFacade dataAccessFacade) {
+    private Tab createPaymentDetailTab(Properties properties, DataAccessFacade dataAccessFacade, String prefix) {
         Loader<Payment> paymentLoader = new PaymentLoader(dataAccessFacade);
         ColumnMapper<Payment> mapper = new PaymentColumnMapper();
         FacadeCommandTemplate<Payment> addCommand = new PaymentAddCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Payment> editCommand = new PaymentEditCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Payment> deleteCommand = new PaymentDeleteCommand(dataAccessFacade, properties);
         Detail<Payment> detail = new PaymentDetail(properties, dataAccessFacade, addCommand, editCommand, deleteCommand);
-        final Tab tab = new TabImpl<>("Payment", paymentLoader, mapper, detail, properties, PAYMENT_TAB_PREFIX);
+        String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
+        final Tab tab = new TabImpl<>(tabTitle, paymentLoader, mapper, detail, properties, prefix);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
