@@ -1,6 +1,5 @@
 package net.guides.view.detail;
 
-import net.guides.data.DataAccessFacade;
 import net.guides.model.Client;
 import net.guides.model.Event;
 import net.guides.model.Payment;
@@ -8,6 +7,7 @@ import net.guides.model.PaymentType;
 import net.guides.controller.Command;
 import net.guides.view.Constants;
 import net.guides.view.Detail;
+import net.guides.view.components.LoaderDrivenComboBox;
 
 import javax.swing.*;
 import java.awt.GridLayout;
@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 public class PaymentDetail implements Detail<Payment> {
@@ -30,33 +29,25 @@ public class PaymentDetail implements Detail<Payment> {
     private static final String PAYMENT_DETAIL_CANCEL_BUTTON_KEY = "payment.detail.cancel.button";
     private static final String PAYMENT_DETAIL_DATE_FORMAT_KEY = "date.format";
     private final DateFormat dateFormat;
-    private final DataAccessFacade dataAccessFacade;
     private final JFrame detailWindow;
-    private final JComboBox<Client> clientJComboBox;
-    private final JComboBox<Event> eventJComboBox;
+    private final LoaderDrivenComboBox<Client> clientBox;
+    private final LoaderDrivenComboBox<Event> eventBox;
+    private final LoaderDrivenComboBox<PaymentType> paymentTypeBox;
     private final JTextField paymentDate;
-    private final JComboBox<PaymentType> paymentTypeJComboBox;
     private final String addButtonLabel;
     private final String editButtonLabel;
     private final String cancelButtonLabel;
     private final JButton proceedButton;
     private final JButton cancelButton;
-    private List<Client> clientList;
-    private List<Event> eventList;
-    private List<PaymentType> paymentTypeList;
     private Integer id;
-    private final JTextField eventIdText;
-    private final JTextField clientIdText;
-    private final JTextField paymentTypeIdText;
-    private final Command<Payment> addCommand;
-    private final Command<Payment> editCommand;
-    private final Command<Payment> deleteCommand;
     private final ActionListener addListener;
     private final ActionListener editListener;
 
-    public PaymentDetail(Properties properties, DataAccessFacade dataAccessFacade, final Command<Payment> addCommand, final Command<Payment> editCommand, final Command<Payment> deleteCommand) {
-        this.dataAccessFacade = dataAccessFacade;
+    public PaymentDetail(Properties properties, final Command<Payment> addCommand, final Command<Payment> editCommand, final Command<Payment> deleteCommand, LoaderDrivenComboBox<Client> clientBox, LoaderDrivenComboBox<Event> eventBox, LoaderDrivenComboBox<PaymentType> paymentTypeBox) {
         this.dateFormat = new SimpleDateFormat(properties.getProperty(PAYMENT_DETAIL_DATE_FORMAT_KEY));
+        this.clientBox = clientBox;
+        this.eventBox = eventBox;
+        this.paymentTypeBox = paymentTypeBox;
         detailWindow = new JFrame(properties.getProperty(PAYMENT_DETAIL_WINDOW_TITLE_KEY));
         detailWindow.setVisible(false);
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -67,23 +58,17 @@ public class PaymentDetail implements Detail<Payment> {
         cancelButtonLabel = properties.getProperty(PAYMENT_DETAIL_CANCEL_BUTTON_KEY);
 
         detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_CLIENT_KEY)));
-        clientJComboBox = new JComboBox<>();
-        clientIdText = new JTextField();
-        detailWindow.add(clientIdText);
+        detailWindow.add(clientBox.getComboBox());
 
         detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_EVENT_KEY)));
-        eventJComboBox = new JComboBox<>();
-        eventIdText = new JTextField();
-        detailWindow.add(eventIdText);
+        detailWindow.add(eventBox.getComboBox());
+
+        detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_PAYMENT_TYPE_KEY)));
+        detailWindow.add(paymentTypeBox.getComboBox());
 
         detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_DATE_KEY)));
         paymentDate = new JTextField();
         detailWindow.add(paymentDate);
-
-        detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_PAYMENT_TYPE_KEY)));
-        paymentTypeJComboBox = new JComboBox<>();
-        paymentTypeIdText = new JTextField();
-        detailWindow.add(paymentTypeIdText);
 
         proceedButton = new JButton();
         proceedButton.setText(addButtonLabel);
@@ -92,10 +77,13 @@ public class PaymentDetail implements Detail<Payment> {
         cancelButton = new JButton();
         cancelButton.setText(cancelButtonLabel);
         detailWindow.add(cancelButton);
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                detailWindow.setVisible(false);
+            }
+        });
 
-        this.addCommand = addCommand;
-        this.editCommand = editCommand;
-        this.deleteCommand = deleteCommand;
         this.addListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,9 +105,9 @@ public class PaymentDetail implements Detail<Payment> {
     }
 
     private Payment getRecord() {
-        int clientId = Integer.parseInt(clientIdText.getText());
-        int eventId = Integer.parseInt(eventIdText.getText());
-        int paymentTypeId = Integer.parseInt(paymentTypeIdText.getText());
+        int clientId = clientBox.getSelectedItem().getClientId();
+        int eventId = eventBox.getSelectedItem().getEventId();
+        int paymentTypeId = paymentTypeBox.getSelectedItem().getId();
         Date paymentDateValue;
         try {
             paymentDateValue = dateFormat.parse(paymentDate.getText());
@@ -132,12 +120,6 @@ public class PaymentDetail implements Detail<Payment> {
     @Override
     public void presentAddRecord() {
         detailWindow.setVisible(false);
-        clientList = dataAccessFacade.getAllClients();
-        eventList = dataAccessFacade.getAllEvents();
-        paymentTypeList = dataAccessFacade.getAllPaymentTypes();
-        clientIdText.setText(Constants.BLANK);
-        eventIdText.setText(Constants.BLANK);
-        paymentTypeIdText.setText(Constants.BLANK);
         paymentDate.setText(Constants.BLANK);
         proceedButton.setText(addButtonLabel);
         proceedButton.addActionListener(addListener);
@@ -148,9 +130,6 @@ public class PaymentDetail implements Detail<Payment> {
     @Override
     public void presentEditRecord(Payment record) {
         detailWindow.setVisible(false);
-        clientIdText.setText(Integer.toString(record.getClientId()));
-        eventIdText.setText(Integer.toString(record.getEventId()));
-        paymentTypeIdText.setText(Integer.toString(record.getPaymentTypeId()));
         paymentDate.setText(dateFormat.format(record.getPaymentDate()));
         proceedButton.setText(editButtonLabel);
         proceedButton.addActionListener(editListener);

@@ -1,6 +1,8 @@
-package net.guides.view;
+package net.guides.view.components;
 
 import net.guides.controller.Listener;
+import net.guides.view.ColumnMapper;
+import net.guides.view.Loader;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;

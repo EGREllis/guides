@@ -2,6 +2,7 @@ package net.guides.view.tab;
 
 import net.guides.controller.Listener;
 import net.guides.view.*;
+import net.guides.view.components.ListTableModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +60,9 @@ public class TabImpl<T> implements Tab, Listener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 T record = getSelectedRecord();
-                detail.presentEditRecord(record);
+                if (record != null) {
+                    detail.presentEditRecord(record);
+                }
             }
         });
         JButton deleteButton = new JButton(properties.getProperty(String.format(TAB_DELETE_BUTTON_TEXT_KEY, prefix)));
@@ -80,7 +83,14 @@ public class TabImpl<T> implements Tab, Listener {
     }
 
     private T getSelectedRecord() {
-        return listTableModel.getList().get(table.getSelectedRow());
+        int index;
+        try {
+            index = table.getSelectedRow();
+        } catch (ArrayIndexOutOfBoundsException aiob) {
+            // Nothing is selected
+            return null;
+        }
+        return listTableModel.getList().get(index);
     }
 
     @Override
