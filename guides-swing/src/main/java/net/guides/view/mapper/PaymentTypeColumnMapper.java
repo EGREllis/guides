@@ -1,4 +1,4 @@
-package net.guides.view.table;
+package net.guides.view.mapper;
 
 import net.guides.model.PaymentType;
 import net.guides.view.ColumnMapper;

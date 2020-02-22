@@ -19,10 +19,10 @@ import net.guides.view.loader.EventLoader;
 import net.guides.view.loader.PaymentLoader;
 import net.guides.view.loader.PaymentTypeLoader;
 import net.guides.view.tab.TabImpl;
-import net.guides.view.table.ClientColumnMapper;
-import net.guides.view.table.EventColumnMapper;
-import net.guides.view.table.PaymentColumnMapper;
-import net.guides.view.table.PaymentTypeColumnMapper;
+import net.guides.view.mapper.ClientColumnMapper;
+import net.guides.view.mapper.EventColumnMapper;
+import net.guides.view.mapper.PaymentColumnMapper;
+import net.guides.view.mapper.PaymentTypeColumnMapper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
