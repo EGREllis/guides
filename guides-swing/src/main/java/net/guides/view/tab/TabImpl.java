@@ -39,6 +39,7 @@ public class TabImpl<T> implements Tab, Listener {
         panel.setLayout(new BorderLayout());
         listTableModel = new ListTableModel<>(loader, mapper);
         table = new JTable(listTableModel);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(400, 100));
         table.setFillsViewportHeight(true);
