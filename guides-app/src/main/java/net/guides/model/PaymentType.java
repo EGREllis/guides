@@ -1,15 +1,15 @@
 package net.guides.model;
 
 public class PaymentType {
-    private final int id;
+    private final Integer id;
     private final String description;
 
-    public PaymentType(int id, String description) {
+    public PaymentType(Integer id, String description) {
         this.id = id;
         this.description = description;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

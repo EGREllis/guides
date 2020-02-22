@@ -60,21 +60,21 @@ public class PaymentDetail implements Detail<Payment> {
         detailWindow = new JFrame(properties.getProperty(PAYMENT_DETAIL_WINDOW_TITLE_KEY));
         detailWindow.setVisible(false);
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        detailWindow.setLayout(new GridLayout());
+        detailWindow.setLayout(new GridLayout(5,2));
 
         addButtonLabel = properties.getProperty(PAYMENT_DETAIL_ADD_BUTTON_KEY);
         editButtonLabel = properties.getProperty(PAYMENT_DETAIL_EDIT_BUTTON_KEY);
         cancelButtonLabel = properties.getProperty(PAYMENT_DETAIL_CANCEL_BUTTON_KEY);
 
-        detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_EVENT_KEY)));
-        eventJComboBox = new JComboBox<>();
-        eventIdText = new JTextField();
-        detailWindow.add(eventIdText);
-
         detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_CLIENT_KEY)));
         clientJComboBox = new JComboBox<>();
         clientIdText = new JTextField();
         detailWindow.add(clientIdText);
+
+        detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_EVENT_KEY)));
+        eventJComboBox = new JComboBox<>();
+        eventIdText = new JTextField();
+        detailWindow.add(eventIdText);
 
         detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_DATE_KEY)));
         paymentDate = new JTextField();
@@ -140,6 +140,8 @@ public class PaymentDetail implements Detail<Payment> {
         paymentTypeIdText.setText(Constants.BLANK);
         paymentDate.setText(Constants.BLANK);
         proceedButton.setText(addButtonLabel);
+        proceedButton.addActionListener(addListener);
+        proceedButton.removeActionListener(editListener);
         detailWindow.setVisible(true);
     }
 
@@ -151,6 +153,8 @@ public class PaymentDetail implements Detail<Payment> {
         paymentTypeIdText.setText(Integer.toString(record.getPaymentTypeId()));
         paymentDate.setText(dateFormat.format(record.getPaymentDate()));
         proceedButton.setText(editButtonLabel);
+        proceedButton.addActionListener(editListener);
+        proceedButton.removeActionListener(addListener);
         detailWindow.setVisible(true);
     }
 }

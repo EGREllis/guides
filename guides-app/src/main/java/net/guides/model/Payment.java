@@ -3,13 +3,13 @@ package net.guides.model;
 import java.util.Date;
 
 public class Payment {
-    private int paymentId;
+    private Integer paymentId;
     private int clientId;
     private int eventId;
     private int paymentTypeId;
     private Date paymentDate;
 
-    public Payment(int paymentId, int clientId, int eventId, int paymentTypeId, Date paymentDate) {
+    public Payment(Integer paymentId, int clientId, int eventId, int paymentTypeId, Date paymentDate) {
         this.paymentId = paymentId;
         this.clientId = clientId;
         this.eventId = eventId;
@@ -17,7 +17,7 @@ public class Payment {
         this.paymentDate = paymentDate;
     }
 
-    public int getPaymentId() {
+    public Integer getPaymentId() {
         return paymentId;
     }
 
