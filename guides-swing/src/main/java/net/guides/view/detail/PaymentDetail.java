@@ -54,7 +54,7 @@ public class PaymentDetail implements Detail<Payment> {
     private final ActionListener addListener;
     private final ActionListener editListener;
 
-    public PaymentDetail(Properties properties, DataAccessFacade dataAccessFacade, final Command<Payment> addCommand, final Command<Payment> editCommand, Command<Payment> deleteCommand) {
+    public PaymentDetail(Properties properties, DataAccessFacade dataAccessFacade, final Command<Payment> addCommand, final Command<Payment> editCommand, final Command<Payment> deleteCommand) {
         this.dataAccessFacade = dataAccessFacade;
         this.dateFormat = new SimpleDateFormat(properties.getProperty(PAYMENT_DETAIL_DATE_FORMAT_KEY));
         detailWindow = new JFrame(properties.getProperty(PAYMENT_DETAIL_WINDOW_TITLE_KEY));
@@ -101,6 +101,7 @@ public class PaymentDetail implements Detail<Payment> {
             public void actionPerformed(ActionEvent e) {
                 Payment payment = getRecord();
                 addCommand.execute(payment);
+                detailWindow.setVisible(false);
             }
         };
         this.editListener = new ActionListener() {
@@ -108,6 +109,7 @@ public class PaymentDetail implements Detail<Payment> {
             public void actionPerformed(ActionEvent e) {
                 Payment payment = getRecord();
                 editCommand.execute(payment);
+                detailWindow.setVisible(false);
             }
         };
 
@@ -136,6 +138,7 @@ public class PaymentDetail implements Detail<Payment> {
         clientIdText.setText(Constants.BLANK);
         eventIdText.setText(Constants.BLANK);
         paymentTypeIdText.setText(Constants.BLANK);
+        paymentDate.setText(Constants.BLANK);
         proceedButton.setText(addButtonLabel);
         detailWindow.setVisible(true);
     }

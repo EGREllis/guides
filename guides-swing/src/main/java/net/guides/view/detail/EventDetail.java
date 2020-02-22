@@ -68,6 +68,7 @@ public class EventDetail implements Detail<Event> {
             public void actionPerformed(ActionEvent e) {
                 Event thisEvent = getRecord();
                 addCommand.execute(thisEvent);
+                detailWindow.setVisible(false);
             }
         };
         editButtonListener = new ActionListener() {
@@ -75,6 +76,7 @@ public class EventDetail implements Detail<Event> {
             public void actionPerformed(ActionEvent e) {
                 Event thisEvent = getRecord();
                 editCommand.execute(thisEvent);
+                detailWindow.setVisible(false);
             }
         };
 

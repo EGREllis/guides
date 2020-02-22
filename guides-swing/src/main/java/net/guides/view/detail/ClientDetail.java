@@ -85,6 +85,7 @@ public class ClientDetail implements Detail<Client> {
             public void actionPerformed(ActionEvent e) {
                 Client client = getRecord();
                 addCommand.execute(client);
+                detailWindow.setVisible(false);
             }
         };
         editButtonListener = new ActionListener() {
@@ -92,6 +93,7 @@ public class ClientDetail implements Detail<Client> {
             public void actionPerformed(ActionEvent e) {
                 Client client = getRecord();
                 editCommand.execute(client);
+                detailWindow.setVisible(false);
             }
         };
         detailWindow.add(proceedButton);
@@ -127,6 +129,7 @@ public class ClientDetail implements Detail<Client> {
         firstName.setText(BLANK);
         lastName.setText(BLANK);
         sms.setText(BLANK);
+        email.setText(BLANK);
         proceedButton.setText(labelAddButton);
         proceedButton.addActionListener(addButtonListener);
         proceedButton.removeActionListener(editButtonListener);

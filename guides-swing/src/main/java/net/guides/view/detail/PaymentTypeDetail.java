@@ -58,6 +58,7 @@ public class PaymentTypeDetail implements Detail<PaymentType> {
             public void actionPerformed(ActionEvent e) {
                 PaymentType type = getRecord();
                 addCommand.execute(type);
+                detailWindow.setVisible(false);
             }
         };
         editButtonListener = new ActionListener() {
@@ -65,6 +66,7 @@ public class PaymentTypeDetail implements Detail<PaymentType> {
             public void actionPerformed(ActionEvent e) {
                 PaymentType type = getRecord();
                 editCommand.execute(type);
+                detailWindow.setVisible(false);
             }
         };
         proceedButton.addActionListener(addButtonListener);
