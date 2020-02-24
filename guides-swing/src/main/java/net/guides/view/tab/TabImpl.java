@@ -71,7 +71,7 @@ public class TabImpl<T> implements Tab, Listener {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Confirm?
+                JFrame dialogFrame = new JFrame();
             }
         });
         panel.add(buttonPanel, BorderLayout.SOUTH);
@@ -84,14 +84,18 @@ public class TabImpl<T> implements Tab, Listener {
     }
 
     private T getSelectedRecord() {
+        T result = null;
         int index;
         try {
             index = table.getSelectedRow();
+            if (index >= 0) {
+                result = listTableModel.getList().get(index);
+            }
         } catch (ArrayIndexOutOfBoundsException aiob) {
             // Nothing is selected
             return null;
         }
-        return listTableModel.getList().get(index);
+        return result;
     }
 
     @Override
