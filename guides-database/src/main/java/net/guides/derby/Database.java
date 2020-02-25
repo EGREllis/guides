@@ -35,10 +35,14 @@ public class Database {
         registerDriver(dbProperties);
     }
 
-    public void create(boolean dropTableIfFound, boolean truncateTableIfFound, boolean populateTestData) {
+    public void create(boolean dropTableIfFound, boolean truncateTableIfFound, boolean populateStaticData, boolean populateTestData) {
         createTables(dropTableIfFound);
-        populateTables(truncateTableIfFound);
-        populateTablesWithTestData(false);
+        if (populateStaticData) {
+            populateTables(truncateTableIfFound);
+        }
+        if (populateTestData) {
+            populateTablesWithTestData(false);
+        }
     }
 
     public Connection getConnection() throws SQLException {

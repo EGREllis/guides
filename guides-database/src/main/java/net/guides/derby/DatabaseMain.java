@@ -11,9 +11,10 @@ public class DatabaseMain {
         }
         boolean dropTableIfFound = arguments.contains("--drop");
         boolean truncateDateIfFound = arguments.contains("--truncate");
+        boolean populateStaticData = arguments.contains("--populate");
         boolean populateTestData = arguments.contains("--test");
         Database database = new Database();
         database.start();
-        database.create(dropTableIfFound, truncateDateIfFound, populateTestData);
+        database.create(dropTableIfFound, truncateDateIfFound, populateStaticData, populateTestData);
     }
 }
