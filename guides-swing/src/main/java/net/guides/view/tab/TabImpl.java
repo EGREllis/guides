@@ -80,12 +80,12 @@ public class TabImpl<T> implements Tab, Listener {
             public void actionPerformed(ActionEvent e) {
                 JFrame dialogFrame = new JFrame();
                 String[] options = new String[] {
-                        properties.getProperty(TAB_DELETE_CONFIRM_PROCEED_KEY),
-                        properties.getProperty(TAB_DELETE_CONFIRM_CANCEL_KEY)
+                        properties.getProperty(String.format(TAB_DELETE_CONFIRM_PROCEED_KEY, prefix)),
+                        properties.getProperty(String.format(TAB_DELETE_CONFIRM_CANCEL_KEY, prefix))
                 };
                 int n = JOptionPane.showOptionDialog(dialogFrame,
-                        properties.getProperty(TAB_DELETE_CONFIRM_TEXT_KEY),
-                        properties.getProperty(TAB_DELETE_CONFIRM_TITLE_KEY),
+                        properties.getProperty(String.format(TAB_DELETE_CONFIRM_TEXT_KEY, prefix)),
+                        properties.getProperty(String.format(TAB_DELETE_CONFIRM_TITLE_KEY, prefix)),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,
@@ -94,6 +94,7 @@ public class TabImpl<T> implements Tab, Listener {
                 if (n == 0) {
                     T record = getSelectedRecord();
                     deleteCommand.execute(record);
+                    alert();
                 }
             }
         });
