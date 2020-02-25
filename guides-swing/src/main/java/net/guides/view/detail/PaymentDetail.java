@@ -1,5 +1,6 @@
 package net.guides.view.detail;
 
+import net.guides.data.DataAccessFacade;
 import net.guides.model.Client;
 import net.guides.model.Event;
 import net.guides.model.Payment;
@@ -28,6 +29,7 @@ public class PaymentDetail implements Detail<Payment> {
     private static final String PAYMENT_DETAIL_EDIT_BUTTON_KEY = "payment.detail.edit.button";
     private static final String PAYMENT_DETAIL_CANCEL_BUTTON_KEY = "payment.detail.cancel.button";
     private static final String PAYMENT_DETAIL_DATE_FORMAT_KEY = "date.format";
+    private final DataAccessFacade dataAccessFacade;
     private final DateFormat dateFormat;
     private final JFrame detailWindow;
     private final LoaderDrivenComboBox<Client> clientBox;
@@ -43,7 +45,8 @@ public class PaymentDetail implements Detail<Payment> {
     private final ActionListener addListener;
     private final ActionListener editListener;
 
-    public PaymentDetail(Properties properties, final Command<Payment> addCommand, final Command<Payment> editCommand, final Command<Payment> deleteCommand, LoaderDrivenComboBox<Client> clientBox, LoaderDrivenComboBox<Event> eventBox, LoaderDrivenComboBox<PaymentType> paymentTypeBox) {
+    public PaymentDetail(DataAccessFacade dataAccessFacade, Properties properties, final Command<Payment> addCommand, final Command<Payment> editCommand, final Command<Payment> deleteCommand, LoaderDrivenComboBox<Client> clientBox, LoaderDrivenComboBox<Event> eventBox, LoaderDrivenComboBox<PaymentType> paymentTypeBox) {
+        this.dataAccessFacade = dataAccessFacade;
         this.dateFormat = new SimpleDateFormat(properties.getProperty(PAYMENT_DETAIL_DATE_FORMAT_KEY));
         this.clientBox = clientBox;
         this.eventBox = eventBox;
@@ -108,13 +111,16 @@ public class PaymentDetail implements Detail<Payment> {
         int clientId = clientBox.getSelectedItem().getClientId();
         int eventId = eventBox.getSelectedItem().getEventId();
         int paymentTypeId = paymentTypeBox.getSelectedItem().getId();
+        Client client = dataAccessFacade.getClient(clientId);
+        Event event = dataAccessFacade.getEvent(eventId);
+        PaymentType paymentType = dataAccessFacade.getPaymentType(paymentTypeId);
         Date paymentDateValue;
         try {
             paymentDateValue = dateFormat.parse(paymentDate.getText());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return new Payment(id, clientId, eventId, paymentTypeId, paymentDateValue);
+        return new Payment(id, client, event, paymentType, paymentDateValue);
     }
 
     @Override

@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class Payment {
     private Integer paymentId;
-    private int clientId;
-    private int eventId;
-    private int paymentTypeId;
+    private Client client;
+    private Event event;
+    private PaymentType paymentType;
     private Date paymentDate;
 
-    public Payment(Integer paymentId, int clientId, int eventId, int paymentTypeId, Date paymentDate) {
+    public Payment(Integer paymentId, Client client, Event event, PaymentType paymentType, Date paymentDate) {
         this.paymentId = paymentId;
-        this.clientId = clientId;
-        this.eventId = eventId;
-        this.paymentTypeId = paymentTypeId;
+        this.client = client;
+        this.event = event;
+        this.paymentType = paymentType;
         this.paymentDate = paymentDate;
     }
 
@@ -21,16 +21,16 @@ public class Payment {
         return paymentId;
     }
 
-    public int getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public int getEventId() {
-        return eventId;
+    public Event getEventId() {
+        return event;
     }
 
-    public int getPaymentTypeId() {
-        return paymentTypeId;
+    public PaymentType getPaymentTypeId() {
+        return paymentType;
     }
 
     public Date getPaymentDate() {
@@ -38,12 +38,12 @@ public class Payment {
     }
 
     public Payment replaceId(int paymentId) {
-        return new Payment(paymentId, clientId, eventId, paymentTypeId, paymentDate);
+        return new Payment(paymentId, client, event, paymentType, paymentDate);
     }
 
     @Override
     public String toString() {
-        return String.format("Payment:%1$d ClientId:%2$d EventId:%3$d PaymentType:%4$s PaymentDate:%5$s", paymentId, clientId, eventId, paymentTypeId, paymentDate);
+        return String.format("Payment:%1$d ClientId:%2$d EventId:%3$d PaymentType:%4$s PaymentDate:%5$s", paymentId, client, event, paymentType, paymentDate);
     }
 
     @Override
@@ -51,13 +51,13 @@ public class Payment {
         boolean result = false;
         if (obj instanceof Payment) {
             Payment other = (Payment)obj;
-            result = paymentId == other.paymentId && clientId == other.clientId && eventId == other.eventId && paymentTypeId == other.paymentTypeId && paymentDate.equals(other.paymentDate);
+            result = paymentId == other.paymentId && client.equals(client) && event.equals(other.event) && paymentType.equals(other.paymentType) && paymentDate.equals(other.paymentDate);
         }
         return result;
     }
 
     @Override
     public int hashCode() {
-        return paymentId * 13 + clientId * 7 + eventId * 5 + paymentTypeId * 3 + paymentDate.hashCode();
+        return paymentId * 13 + client.hashCode() * 7 + event.hashCode() * 5 + paymentType.hashCode() * 3 + paymentDate.hashCode();
     }
 }

@@ -150,12 +150,15 @@ public class InMemoryDataAccessFacade implements DataAccessFacade {
 
     public static DataAccessFacade stockedWithDummyData() {
         DataAccessFacade facade = new InMemoryDataAccessFacade();
-        facade.addClient(new Client(1, "Gary", "Blower", "07853000000", "a@b"));
+        Client client1 = new Client(1, "Gary", "Blower", "07853000000", "a@b");
+        Event event1 = new Event(1, "Example event", new Date());
+        PaymentType paymentType1 = new PaymentType(1, "Cash");
+        facade.addClient(client1);
         facade.addClient(new Client(2, "Bob","Coppins", "07853200900", "bob@evil"));
-        facade.addEvent(new Event(1, "Example event", new Date()));
-        facade.addPaymentType(new PaymentType(1, "Cash"));
+        facade.addEvent(event1);
+        facade.addPaymentType(paymentType1);
         facade.addPaymentType(new PaymentType(2, "Card"));
-        facade.addPayment(new Payment(1, 1, 1, 1, new Date()));
+        facade.addPayment(new Payment(1, client1, event1, paymentType1, new Date()));
         return facade;
     }
 }

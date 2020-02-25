@@ -21,7 +21,7 @@ public class PaymentColumnMapper implements ColumnMapper<Payment> {
         Object result;
         switch (column) {
             case 0:
-                result = data.getClientId();
+                result = data.getClient();
                 break;
             case 1:
                 result = data.getEventId();

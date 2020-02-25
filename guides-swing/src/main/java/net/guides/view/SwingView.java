@@ -118,7 +118,7 @@ public class SwingView {
         LoaderDrivenComboBox<Event> eventBox = new LoaderDrivenComboBox<>(new JComboBox<String>(), new EventLoader(dataAccessFacade), new EventFormatter(properties));
         LoaderDrivenComboBox<PaymentType> paymentTypeBox = new LoaderDrivenComboBox<>(new JComboBox<String>(), new PaymentTypeLoader(dataAccessFacade), new PaymentTypeFormatter(properties));
 
-        Detail<Payment> detail = new PaymentDetail(properties, addCommand, editCommand, deleteCommand, clientBox, eventBox, paymentTypeBox);
+        Detail<Payment> detail = new PaymentDetail(dataAccessFacade, properties, addCommand, editCommand, deleteCommand, clientBox, eventBox, paymentTypeBox);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
         final Tab tab = new TabImpl<>(tabTitle, paymentLoader, mapper, detail, properties, prefix, deleteCommand);
         addCommand.addListener(tab);
