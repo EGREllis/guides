@@ -12,5 +12,6 @@
     <module>guides-web</module>
     <module>guides-server</module>
     <module>guides-swing</module>
+    <module>guides-data</module>
   </modules>
 </project>

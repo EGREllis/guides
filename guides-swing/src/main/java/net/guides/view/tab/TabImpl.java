@@ -6,6 +6,7 @@ import net.guides.view.*;
 import net.guides.view.components.ListTableModel;
 
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
