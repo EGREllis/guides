@@ -13,5 +13,6 @@
     <module>guides-server</module>
     <module>guides-swing</module>
     <module>guides-data</module>
+    <module>guides-data-jdbc</module>
   </modules>
 </project>

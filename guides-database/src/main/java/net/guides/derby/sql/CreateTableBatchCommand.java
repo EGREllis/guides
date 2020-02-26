@@ -1,4 +1,7 @@
-package net.guides.derby;
+package net.guides.derby.sql;
+
+import net.guides.derby.Database;
+import net.guides.derby.SqlCommand;
 
 import java.io.BufferedReader;
 import java.io.IOException;

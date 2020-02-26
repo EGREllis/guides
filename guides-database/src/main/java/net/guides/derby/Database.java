@@ -1,5 +1,8 @@
 package net.guides.derby;
 
+import net.guides.derby.sql.CreateTableBatchCommand;
+import net.guides.derby.sql.InsertDataSqlBatchCommand;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -101,7 +104,7 @@ public class Database {
         return clean;
     }
 
-    void executeDDLStatement(String sql) throws SQLException {
+    public void executeDDLStatement(String sql) throws SQLException {
         try (Connection connection = getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 System.out.println(String.format(INFO_DDL_STATEMENT, sql));
@@ -114,7 +117,7 @@ public class Database {
         }
     }
 
-    int executeSingleFieldSingleRowIntResultSetQuery(String sql) throws SQLException {
+    public int executeSingleFieldSingleRowIntResultSetQuery(String sql) throws SQLException {
         int result;
         try (Connection connection = getConnection()) {
             try (Statement statement = connection.createStatement()) {
@@ -136,7 +139,7 @@ public class Database {
         return result;
     }
 
-    List<String> getSingleRowAsStringResultSetQuery(String sql) throws SQLException {
+    public List<String> getSingleRowAsStringResultSetQuery(String sql) throws SQLException {
         List<String> results = new ArrayList<>();
         try (Connection connection = getConnection()) {
             try (Statement statement = connection.createStatement()) {
