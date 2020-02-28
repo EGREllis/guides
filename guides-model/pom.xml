@@ -8,7 +8,7 @@
   </parent>
 
   <groupId>net.guides</groupId>
-  <artifactId>guides-app</artifactId>
+  <artifactId>guides-model</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <name>guides-app</name>
