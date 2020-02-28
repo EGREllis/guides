@@ -161,4 +161,21 @@ public class InMemoryDataAccessFacade implements DataAccessFacade {
         facade.addPayment(new Payment(1, client1, event1, paymentType1, new Date()));
         return facade;
     }
+
+    public static DataAccessFacade stocked(Map<Integer,Client> clients, Map<Integer,Event> events, Map<Integer,PaymentType> paymentTypes, Map<Integer,Payment> payments) {
+        DataAccessFacade facade = new InMemoryDataAccessFacade();
+        for (Map.Entry<Integer,Client> clientEntry : clients.entrySet()) {
+            facade.addClient(clientEntry.getValue());
+        }
+        for (Map.Entry<Integer,Event> eventEntry : events.entrySet()) {
+            facade.addEvent(eventEntry.getValue());
+        }
+        for (Map.Entry<Integer,PaymentType> paymentTypeEntry : paymentTypes.entrySet()) {
+            facade.addPaymentType(paymentTypeEntry.getValue());
+        }
+        for (Map.Entry<Integer,Payment> paymentEntry : payments.entrySet()) {
+            facade.addPayment(paymentEntry.getValue());
+        }
+        return facade;
+    }
 }

@@ -9,8 +9,6 @@ import net.guides.model.PaymentType;
 import java.util.List;
 
 public class JdbcDataAccessFacade implements DataAccessFacade {
-
-
     @Override
     public List<Client> getAllClients() {
         return null;

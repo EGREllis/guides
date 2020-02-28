@@ -14,5 +14,6 @@
     <module>guides-swing</module>
     <module>guides-data</module>
     <module>guides-data-jdbc</module>
+    <module>guides-data-file</module>
   </modules>
 </project>
