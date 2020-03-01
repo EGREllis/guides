@@ -7,7 +7,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
-    <module>guides-app</module>
+    <module>guides-model</module>
     <module>guides-database</module>
     <module>guides-web</module>
     <module>guides-server</module>
