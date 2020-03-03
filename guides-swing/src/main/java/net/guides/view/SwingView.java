@@ -1,5 +1,6 @@
 package net.guides.view;
 
+import net.guides.controller.Listener;
 import net.guides.data.DataAccessFacade;
 import net.guides.model.Client;
 import net.guides.model.Event;
@@ -26,6 +27,8 @@ import net.guides.view.mapper.PaymentTypeColumnMapper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -42,6 +45,7 @@ public class SwingView {
     private DataAccessFacade dataAccessFacade;
     private JFrame window;
     private TabbedListTableView listClientsView;
+    private List<Listener> listeners;
 
     public SwingView(Properties swingProperties, DataAccessFacade facade) {
         this.dataAccessFacade = facade;
@@ -49,6 +53,50 @@ public class SwingView {
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setLayout(new BorderLayout());
         properties = swingProperties;
+        listeners = new ArrayList<>();
+        window.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Window closing...");
+                for (Listener listener : listeners) {
+                    listener.alert();
+                }
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
+    }
+
+    public void addListener(Listener listener) {
+        listeners.add(listener);
     }
 
     public void start() {

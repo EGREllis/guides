@@ -3,6 +3,7 @@ package net.guides.data.file.writer;
 import net.guides.data.DataAccessFacade;
 import net.guides.model.Client;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -25,6 +26,8 @@ public class ClientWriter implements Runnable {
             for (Client client : clients) {
                 writer.write(String.format(CLIENT_LINE_FORMAT, client.getClientId(), client.getFirstName(), client.getLastName(), client.getSms(), client.getEmail()));
             }
+            System.out.println(String.format("Saved %1$d records to client file %2$s", clients.size(), new File(filePath).getAbsolutePath()));
+            System.out.flush();
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

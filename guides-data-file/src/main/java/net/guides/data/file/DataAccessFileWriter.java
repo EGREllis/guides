@@ -39,20 +39,20 @@ public class DataAccessFileWriter implements Runnable {
         List<Future<? extends Object>> futures = new ArrayList<>(THREAD_COUNT);
         futures.add(executorService.submit(new ClientWriter(dataAccessFacade, clientFilePath)));
         futures.add(executorService.submit(new EventWriter(dataAccessFacade, eventFilePath, dateFormat)));
-        futures.add(executorService.submit(new PaymentTypeWriter(dataAccessFacade, paymentTypeFilePath, dateFormat)));
+        futures.add(executorService.submit(new PaymentTypeWriter(dataAccessFacade, paymentTypeFilePath)));
         futures.add(executorService.submit(new PaymentWriter(dataAccessFacade, paymentFilePath, dateFormat)));
         for (Future<? extends Object> future : futures) {
             future.isDone();
         }
     }
 
-    public DataAccessFileWriter newFileWriter(DataAccessFacade dataAccessFacade, Properties properties) {
+    public static DataAccessFileWriter newFileWriter(DataAccessFacade dataAccessFacade, Properties properties) {
         return new DataAccessFileWriter(
                 dataAccessFacade,
                 properties.getProperty(FileConstants.CLIENT_FILE_PATH_KEY),
                 properties.getProperty(FileConstants.EVENT_FILE_PATH_KEY),
                 properties.getProperty(FileConstants.PAYMENT_FILE_PATH_KEY),
                 properties.getProperty(FileConstants.PAYMENT_TYPE_FILE_PATH_KEY),
-                new SimpleDateFormat(FileConstants.DATE_FORMAT_KEY));
+                new SimpleDateFormat(properties.getProperty(FileConstants.DATE_FORMAT_KEY)));
     }
 }

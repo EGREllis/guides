@@ -1,5 +1,6 @@
 *.iml
 *.idea
+*.dat
 /target/
 /guides-database/target/
 /guides-app/target/

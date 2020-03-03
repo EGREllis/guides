@@ -15,6 +15,18 @@ public class LoggingDataAccessFacadeDecorator implements DataAccessFacade {
     }
 
     @Override
+    public void start() {
+        log("Starting "+decorated);
+        decorated.start();
+    }
+
+    @Override
+    public void stop() {
+        log("Stopping "+decorated);
+        decorated.stop();
+    }
+
+    @Override
     public List<Client> getAllClients() {
         log("Getting all clients...");
         return decorated.getAllClients();

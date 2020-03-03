@@ -4,6 +4,7 @@ import net.guides.data.DataAccessFacade;
 import net.guides.model.Client;
 import net.guides.model.Event;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -29,6 +30,8 @@ public class EventWriter implements Runnable {
             for (Event event : events) {
                 writer.write(String.format(EVENT_LINE_FORMAT, event.getEventId(), event.getTitle(), dateFormat.format(event.getStartDate())));
             }
+            System.out.println(String.format("Saved %1$d records to events file %2$s", events.size(), new File(filePath).getAbsolutePath()));
+            System.out.flush();
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }

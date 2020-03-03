@@ -19,6 +19,16 @@ public class StubbedDataAccessFacade implements DataAccessFacade {
     private static final List<Payment> payments = Arrays.asList(new Payment(1, clients.get(0), events.get(0), paymentTypes.get(0), new Date()));
 
     @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
     public List<Client> getAllClients() {
         return clients;
     }

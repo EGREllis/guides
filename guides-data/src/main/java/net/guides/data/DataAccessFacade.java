@@ -8,6 +8,8 @@ import net.guides.model.PaymentType;
 import java.util.List;
 
 public interface DataAccessFacade {
+    void start();
+    void stop();
     List<Client> getAllClients();
     Client getClient(int clientId);
     boolean addClient(Client client);

@@ -14,6 +14,16 @@ public class InMemoryDataAccessFacade implements DataAccessFacade {
     private Map<Integer,Payment> payments = new TreeMap<>();
 
     @Override
+    public void start() {
+        /* Load data from database/read data from files */
+    }
+
+    @Override
+    public void stop() {
+        /* Save data to database/write data to files */
+    }
+
+    @Override
     public List<Client> getAllClients() {
         List clientCopy = new ArrayList<>(clients.size());
         clientCopy.addAll(clients.values());

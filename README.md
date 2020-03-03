@@ -14,3 +14,6 @@ Application:
   Add/remove events
   Add/remove payments
   Send receipts for a single event
+
+Known bugs:
+20200303: Add payment type adds as duplicate records (2, then 3, then 4).
