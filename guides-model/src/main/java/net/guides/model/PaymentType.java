@@ -1,6 +1,6 @@
 package net.guides.model;
 
-public class PaymentType {
+public class PaymentType implements Identifiable {
     private final Integer id;
     private final String description;
 

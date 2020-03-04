@@ -2,7 +2,7 @@ package net.guides.model;
 
 import java.util.Date;
 
-public class Payment {
+public class Payment implements Identifiable {
     private Integer paymentId;
     private Client client;
     private Event event;
@@ -59,5 +59,10 @@ public class Payment {
     @Override
     public int hashCode() {
         return paymentId * 13 + client.hashCode() * 7 + event.hashCode() * 5 + paymentType.hashCode() * 3 + paymentDate.hashCode();
+    }
+
+    @Override
+    public Integer getId() {
+        return paymentId;
     }
 }

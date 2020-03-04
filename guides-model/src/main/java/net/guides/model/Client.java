@@ -1,6 +1,6 @@
 package net.guides.model;
 
-public class Client {
+public class Client implements Identifiable {
     private Integer clientId;
     private String firstName;
     private String lastName;
@@ -56,6 +56,11 @@ public class Client {
 
     @Override
     public int hashCode() {
+        return clientId;
+    }
+
+    @Override
+    public Integer getId() {
         return clientId;
     }
 }

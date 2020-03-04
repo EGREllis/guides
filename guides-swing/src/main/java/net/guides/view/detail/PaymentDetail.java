@@ -38,9 +38,7 @@ public class PaymentDetail implements Detail<Payment> {
     private final JTextField paymentDate;
     private final String addButtonLabel;
     private final String editButtonLabel;
-    private final String cancelButtonLabel;
     private final JButton proceedButton;
-    private final JButton cancelButton;
     private Integer id;
     private final ActionListener addListener;
     private final ActionListener editListener;
@@ -58,7 +56,7 @@ public class PaymentDetail implements Detail<Payment> {
 
         addButtonLabel = properties.getProperty(PAYMENT_DETAIL_ADD_BUTTON_KEY);
         editButtonLabel = properties.getProperty(PAYMENT_DETAIL_EDIT_BUTTON_KEY);
-        cancelButtonLabel = properties.getProperty(PAYMENT_DETAIL_CANCEL_BUTTON_KEY);
+        String cancelButtonLabel = properties.getProperty(PAYMENT_DETAIL_CANCEL_BUTTON_KEY);
 
         detailWindow.add(new JLabel(properties.getProperty(PAYMENT_DETAIL_CLIENT_KEY)));
         detailWindow.add(clientBox.getComboBox());
@@ -77,7 +75,7 @@ public class PaymentDetail implements Detail<Payment> {
         proceedButton.setText(addButtonLabel);
         detailWindow.add(proceedButton);
 
-        cancelButton = new JButton();
+        JButton cancelButton = new JButton();
         cancelButton.setText(cancelButtonLabel);
         detailWindow.add(cancelButton);
         cancelButton.addActionListener(new ActionListener() {

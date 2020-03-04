@@ -2,7 +2,7 @@ package net.guides.model;
 
 import java.util.Date;
 
-public class Event {
+public class Event implements Identifiable {
     private Integer eventId;
     private String title;
     private Date startDate;
@@ -46,6 +46,11 @@ public class Event {
 
     @Override
     public int hashCode() {
+        return eventId;
+    }
+
+    @Override
+    public Integer getId() {
         return eventId;
     }
 }

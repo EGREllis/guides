@@ -25,6 +25,7 @@ public class Database {
     private static final String INFO_DISPLAY_SINGLE_COLUMN_RESULT_SET = "Results: %1$s SQL: %2$s";
     private static final String INFO_DDL_STATEMENT = "Executing DDL: %1$s";
     private static final String INFO_BATCH_CLEAN = "BATCH: %1$s CLEAN: %2$s";
+    private static final String LIST_ALL_TABLES_QUERY = "SELECT DISTINCT s.schemaname||'.'||t.tablename FROM sys.systables as t, sys.sysschemas as s WHERE s.schemaid = t.schemaid";
 
     private static final String SQL_DRIVER_KEY = "DB_DRIVER_CLASS";
     private static final String DB_URL_KEY = "JDBC_URL";
@@ -36,6 +37,14 @@ public class Database {
     public void start() throws Exception {
         dbProperties = getDatabaseProperties();
         registerDriver(dbProperties);
+    }
+
+    public List<String> listAllTables() {
+        try {
+            return getSingleRowAsStringResultSetQuery(LIST_ALL_TABLES_QUERY);
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
     }
 
     public void create(boolean dropTableIfFound, boolean truncateTableIfFound, boolean populateStaticData, boolean populateTestData) {
