@@ -172,7 +172,7 @@ public class JdbcDataAccessFacade implements DataAccessFacade {
         try {
             Connection connection = database.getConnection();
             Statement statement = connection.createStatement();
-            String sql = SELECT_SINGLE_EVENT_QUERY;
+            String sql = String.format(SELECT_SINGLE_EVENT_QUERY, eventId);
             System.out.println(sql);
             statement.execute(sql);
             ResultSet resultSet = statement.getResultSet();
@@ -256,7 +256,7 @@ public class JdbcDataAccessFacade implements DataAccessFacade {
         try {
             Connection connection = database.getConnection();
             Statement statement = connection.createStatement();
-            String sql = SELECT_SINGLE_PAYMENT_TYPE_QUERY;
+            String sql = String.format(SELECT_SINGLE_PAYMENT_TYPE_QUERY, paymentTypeId);
             System.out.println(sql);
             statement.execute(sql);
             ResultSet resultSet = statement.getResultSet();
