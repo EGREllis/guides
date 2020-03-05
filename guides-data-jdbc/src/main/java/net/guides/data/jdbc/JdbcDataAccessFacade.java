@@ -24,7 +24,7 @@ public class JdbcDataAccessFacade implements DataAccessFacade {
     private static final String INSERT_SINGLE_CLIENT_STATEMENT = "INSERT INTO guides.client (first_name, last_name, sms, email) VALUES ('%1$s', '%2$s', '%3$s', '%4$s')";
     private static final String INSERT_SINGLE_EVENT_STATEMENT = "INSERT INTO guides.event (title, start_date) VALUES ('%1$s', '%2$s')";
     private static final String INSERT_PAYMENT_TYPE_STATEMENT = "INSERT INTO guides.payment_type (description) VALUES ('%1$s')";
-    private static final String INSERT_PAYMENT_STATEMENT = "INSERT INTO guides.payment (client_id, event_id, payment_type_id) VALUES (%1$d, %2$d, %3$d)";
+    private static final String INSERT_PAYMENT_STATEMENT = "INSERT INTO guides.payment (client_id, event_id, payment_type_id, payment_date) VALUES (%1$d, %2$d, %3$d, '%4$s')";
     private static final String SELECT_SINGLE_CLIENT_QUERY = "SELECT client_id, first_name, last_name, sms, email FROM guides.client WHERE client_id = %1$d";
     private static final String SELECT_SINGLE_EVENT_QUERY = "SELECT event_id, title, start_date FROM guides.event WHERE event_id = %1$d";
     private static final String SELECT_SINGLE_PAYMENT_TYPE_QUERY = "SELECT payment_type_id, description FROM guides.payment_type WHERE payment_type_id = %1$d";
@@ -32,7 +32,7 @@ public class JdbcDataAccessFacade implements DataAccessFacade {
     private static final String UPDATE_SINGLE_CLIENT_QUERY = "UPDATE guides.client SET first_name = '%1$s', last_name = '%2$s', sms = '%3$s', email = '%4$s' WHERE client_id = %5$d";
     private static final String UPDATE_SINGLE_EVENT_QUERY = "UPDATE guides.event SET title = '%1$s', start_date = '%2$s' WHERE event_id = %3$d";
     private static final String UPDATE_SINGLE_PAYMENT_TYPE_QUERY = "UPDATE guides.payment_type SET description = '%1$s' WHERE payment_type_id = %2$d";
-    private static final String UPDATE_SINGLE_PAYMENT_QUERY = "UPDATE payment SET client_id = %1$d, event_id = %2$d, payment_type_id = %3$d, payment_date = '%4$s' WHERE payment_id = %4$d";
+    private static final String UPDATE_SINGLE_PAYMENT_QUERY = "UPDATE guides.payment SET client_id = %1$d, event_id = %2$d, payment_type_id = %3$d, payment_date = '%4$s' WHERE payment_id = %5$d";
     private static final String DELETE_SINGLE_CLIENT_QUERY = "DELETE FROM guides.client WHERE client_id = %1$d";
     private static final String DELETE_SINGLE_EVENT_QUERY = "DELETE FROM guides.event WHERE event_id = %1$d";
     private static final String DELETE_SINGLE_PAYMENT_TYPE_QUERY = "DELETE FROM guides.payment_type WHERE payment_type_id = %1$d";
@@ -358,7 +358,7 @@ public class JdbcDataAccessFacade implements DataAccessFacade {
         try {
             Connection connection = database.getConnection();
             Statement statement = connection.createStatement();
-            String sql = String.format(INSERT_PAYMENT_STATEMENT, payment.getId(), payment.getClient().getId(), payment.getEventId().getEventId(), payment.getPaymentTypeId().getId());
+            String sql = String.format(INSERT_PAYMENT_STATEMENT, payment.getClient().getId(), payment.getEventId().getEventId(), payment.getPaymentTypeId().getId(), dateFormat.format(payment.getPaymentDate()));
             System.out.println(sql);
             statement.execute(sql);
             added = statement.getUpdateCount() == 1;

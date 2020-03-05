@@ -139,5 +139,6 @@ public class PaymentDetail implements Detail<Payment> {
         proceedButton.addActionListener(editListener);
         proceedButton.removeActionListener(addListener);
         detailWindow.setVisible(true);
+        id = record.getId();
     }
 }

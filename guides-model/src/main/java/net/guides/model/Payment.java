@@ -43,7 +43,7 @@ public class Payment implements Identifiable {
 
     @Override
     public String toString() {
-        return String.format("Payment:%1$d ClientId:%2$d EventId:%3$d PaymentType:%4$s PaymentDate:%5$s", paymentId, client, event, paymentType, paymentDate);
+        return String.format("Payment:%1$d Client:%2$s Event:%3$s PaymentType:%4$s PaymentDate:%5$s", paymentId, client, event, paymentType, paymentDate);
     }
 
     @Override
