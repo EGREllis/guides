@@ -16,5 +16,6 @@
     <module>guides-data-jdbc</module>
     <module>guides-data-file</module>
     <module>guides-compose</module>
+    <module>guides-uat</module>
   </modules>
 </project>
