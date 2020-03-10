@@ -11,17 +11,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 import java.util.Properties;
 
 public class ClientDetail implements Detail<Client> {
-    private static final String CLIENT_DETAIL_TITLE_KEY = "client.detail.window.title";
-    private static final String CLIENT_DETAIL_FIRST_NAME_KEY = "client.detail.first.name";
-    private static final String CLIENT_DETAIL_LAST_NAME_KEY = "client.detail.last.name";
-    private static final String CLIENT_DETAIL_SMS_KEY = "client.detail.sms";
-    private static final String CLIENT_DETAIL_EMAIL_KEY = "client.detail.email";
-    private static final String CLIENT_DETAIL_ADD_BUTTON_KEY = "client.detail.add.button";
-    private static final String CLIENT_DETAIL_EDIT_BUTTON_KEY = "client.detail.edit.button";
-    private static final String CLIENT_DETAIL_CANCEL_BUTTON_KEY = "client.detail.cancel.button";
+    public static final String CLIENT_DETAIL_KEY = "client.detail";
+    public static final String CLIENT_DETAIL_TITLE_KEY = "client.detail.window.title";
+    public static final String CLIENT_DETAIL_FIRST_NAME_KEY = "client.detail.first.name";
+    public static final String CLIENT_DETAIL_LAST_NAME_KEY = "client.detail.last.name";
+    public static final String CLIENT_DETAIL_SMS_KEY = "client.detail.sms";
+    public static final String CLIENT_DETAIL_EMAIL_KEY = "client.detail.email";
+    public static final String CLIENT_DETAIL_ADD_BUTTON_KEY = "client.detail.add.button";
+    public static final String CLIENT_DETAIL_EDIT_BUTTON_KEY = "client.detail.edit.button";
+    public static final String CLIENT_DETAIL_CANCEL_BUTTON_KEY = "client.detail.cancel.button";
     private final String labelAddButton;
     private final String labelEditButton;
     private final String labelCancelButton;
@@ -36,7 +38,7 @@ public class ClientDetail implements Detail<Client> {
     private ActionListener addButtonListener;
     private ActionListener editButtonListener;
 
-    public ClientDetail(Properties properties, final Command<Client> addCommand, final Command<Client> editCommand) {
+    public ClientDetail(Properties properties, final Command<Client> addCommand, final Command<Client> editCommand, Map<String,Component> componentMap) {
         detailWindow = new JFrame(properties.getProperty(CLIENT_DETAIL_TITLE_KEY));
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         detailWindow.setVisible(false);
@@ -90,6 +92,15 @@ public class ClientDetail implements Detail<Client> {
         detailWindow.add(proceedButton);
         detailWindow.add(cancelButton);
         detailWindow.pack();
+
+        componentMap.put(CLIENT_DETAIL_FIRST_NAME_KEY, firstName);
+        componentMap.put(CLIENT_DETAIL_LAST_NAME_KEY, lastName);
+        componentMap.put(CLIENT_DETAIL_SMS_KEY, sms);
+        componentMap.put(CLIENT_DETAIL_EMAIL_KEY, email);
+        componentMap.put(CLIENT_DETAIL_ADD_BUTTON_KEY, proceedButton);
+        componentMap.put(CLIENT_DETAIL_EDIT_BUTTON_KEY, proceedButton); // Same button for both purposes
+        componentMap.put(CLIENT_DETAIL_CANCEL_BUTTON_KEY, cancelButton);
+        componentMap.put(CLIENT_DETAIL_KEY, detailWindow);
     }
 
     private Client getRecord() {

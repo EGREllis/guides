@@ -10,16 +10,18 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 import java.util.Properties;
 
 public class TabImpl<T> implements Tab, Listener {
-    private static final String TAB_ADD_BUTTON_TEXT_KEY = "%1$s.add.button";
-    private static final String TAB_EDIT_BUTTON_TEXT_KEY = "%1$s.edit.button";
-    private static final String TAB_DELETE_BUTTON_TEXT_KEY = "%1$s.delete.button";
-    private static final String TAB_DELETE_CONFIRM_TITLE_KEY = "%1$s.confirm.delete.title.text";
-    private static final String TAB_DELETE_CONFIRM_TEXT_KEY = "%1$s.confirm.delete.text";
-    private static final String TAB_DELETE_CONFIRM_PROCEED_KEY = "%1$s.confirm.delete.proceed.button";
-    private static final String TAB_DELETE_CONFIRM_CANCEL_KEY = "%1$s.confirm.delete.cancel.button";
+    public static final String TAB_TABLE_TEXT_KEY = "%1$s.table";
+    public static final String TAB_ADD_BUTTON_TEXT_KEY = "%1$s.add.button";
+    public static final String TAB_EDIT_BUTTON_TEXT_KEY = "%1$s.edit.button";
+    public static final String TAB_DELETE_BUTTON_TEXT_KEY = "%1$s.delete.button";
+    public static final String TAB_DELETE_CONFIRM_TITLE_KEY = "%1$s.confirm.delete.title.text";
+    public static final String TAB_DELETE_CONFIRM_TEXT_KEY = "%1$s.confirm.delete.text";
+    public static final String TAB_DELETE_CONFIRM_PROCEED_KEY = "%1$s.confirm.delete.proceed.button";
+    public static final String TAB_DELETE_CONFIRM_CANCEL_KEY = "%1$s.confirm.delete.cancel.button";
     private final Properties properties;
     private final Loader<T> loader;
     private final ColumnMapper<T> mapper;
@@ -30,8 +32,9 @@ public class TabImpl<T> implements Tab, Listener {
     private JPanel panel;
     private JTable table;
     private ListTableModel<T> listTableModel;
+    private Map<String,Component> componentMap;
 
-    public TabImpl(String tabName, Loader<T> loader, ColumnMapper<T> mapper, Detail<T> detail, Properties properties, String prefix, Command<T> deleteCommand) {
+    public TabImpl(String tabName, Loader<T> loader, ColumnMapper<T> mapper, Detail<T> detail, Properties properties, String prefix, Command<T> deleteCommand, Map<String,Component> componentMap) {
         this.tabName = tabName;
         this.loader = loader;
         this.mapper = mapper;
@@ -39,6 +42,7 @@ public class TabImpl<T> implements Tab, Listener {
         this.properties = properties;
         this.prefix = prefix;
         this.deleteCommand = deleteCommand;
+        this.componentMap = componentMap;
     }
 
     @Override
@@ -100,6 +104,12 @@ public class TabImpl<T> implements Tab, Listener {
             }
         });
         panel.add(buttonPanel, BorderLayout.SOUTH);
+
+        componentMap.put(String.format(TAB_ADD_BUTTON_TEXT_KEY, prefix), addButton);
+        componentMap.put(String.format(TAB_EDIT_BUTTON_TEXT_KEY, prefix), editButton);
+        componentMap.put(String.format(TAB_DELETE_BUTTON_TEXT_KEY, prefix), deleteButton);
+        componentMap.put(String.format(TAB_TABLE_TEXT_KEY, prefix), table);
+
         return panel;
     }
 

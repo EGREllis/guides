@@ -33,12 +33,12 @@ import java.util.*;
 import java.util.List;
 
 public class SwingView {
-    private static final String TAB_TITLE_KEY = "%1$s.title";
-    private static final String WINDOW_TITLE_KEY = "window.title";
-    private static final String CLIENT_TAB_PREFIX = "client.tab";
-    private static final String EVENT_TAB_PREFIX = "event.tab";
-    private static final String PAYMENT_TYPE_TAB_PREFIX = "payment.type.tab";
-    private static final String PAYMENT_TAB_PREFIX = "payment.tab";
+    public static final String TAB_TITLE_KEY = "%1$s.title";
+    public static final String WINDOW_TITLE_KEY = "window.title";
+    public static final String CLIENT_TAB_PREFIX = "client.tab";
+    public static final String EVENT_TAB_PREFIX = "event.tab";
+    public static final String PAYMENT_TYPE_TAB_PREFIX = "payment.type.tab";
+    public static final String PAYMENT_TAB_PREFIX = "payment.tab";
 
     private Properties properties;
     private DataAccessFacade dataAccessFacade;
@@ -119,9 +119,9 @@ public class SwingView {
         FacadeCommandTemplate<Client> addCommand = new ClientAddCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Client> editCommand = new ClientEditCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Client> deleteCommand = new ClientDeleteCommand(dataAccessFacade, properties);
-        Detail<Client> details = new ClientDetail(properties, addCommand, editCommand);
+        Detail<Client> details = new ClientDetail(properties, addCommand, editCommand, components);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
-        final Tab tab = new TabImpl<>(tabTitle, clientLoader, mapper, details, properties, prefix, deleteCommand);
+        final Tab tab = new TabImpl<>(tabTitle, clientLoader, mapper, details, properties, prefix, deleteCommand, components);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
@@ -135,7 +135,7 @@ public class SwingView {
         FacadeCommandTemplate<Event> deleteCommand = new EventDeleteCommand(dataAccessFacade, properties);
         Detail<Event> details = new EventDetail(properties, addCommand, editCommand);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
-        final Tab tab = new TabImpl<>(tabTitle, eventLoader, mapper, details, properties, prefix, deleteCommand);
+        final Tab tab = new TabImpl<>(tabTitle, eventLoader, mapper, details, properties, prefix, deleteCommand, components);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
@@ -149,7 +149,7 @@ public class SwingView {
         FacadeCommandTemplate<PaymentType> deleteCommand = new PaymentTypeDeleteCommand(dataAccessFacade, properties);
         Detail<PaymentType> details = new PaymentTypeDetail(properties, addCommand, editCommand);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
-        final Tab tab = new TabImpl<>(tabTitle, paymentTypeLoader, mapper, details, properties, prefix, deleteCommand);
+        final Tab tab = new TabImpl<>(tabTitle, paymentTypeLoader, mapper, details, properties, prefix, deleteCommand, components);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
@@ -168,7 +168,7 @@ public class SwingView {
 
         Detail<Payment> detail = new PaymentDetail(dataAccessFacade, properties, addCommand, editCommand, clientBox, eventBox, paymentTypeBox);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
-        final Tab tab = new TabImpl<>(tabTitle, paymentLoader, mapper, detail, properties, prefix, deleteCommand);
+        final Tab tab = new TabImpl<>(tabTitle, paymentLoader, mapper, detail, properties, prefix, deleteCommand, components);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
