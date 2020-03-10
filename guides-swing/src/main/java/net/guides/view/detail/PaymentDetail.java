@@ -43,7 +43,7 @@ public class PaymentDetail implements Detail<Payment> {
     private final ActionListener addListener;
     private final ActionListener editListener;
 
-    public PaymentDetail(DataAccessFacade dataAccessFacade, Properties properties, final Command<Payment> addCommand, final Command<Payment> editCommand, final Command<Payment> deleteCommand, LoaderDrivenComboBox<Client> clientBox, LoaderDrivenComboBox<Event> eventBox, LoaderDrivenComboBox<PaymentType> paymentTypeBox) {
+    public PaymentDetail(DataAccessFacade dataAccessFacade, Properties properties, final Command<Payment> addCommand, final Command<Payment> editCommand, LoaderDrivenComboBox<Client> clientBox, LoaderDrivenComboBox<Event> eventBox, LoaderDrivenComboBox<PaymentType> paymentTypeBox) {
         this.dataAccessFacade = dataAccessFacade;
         this.dateFormat = new SimpleDateFormat(properties.getProperty(PAYMENT_DETAIL_DATE_FORMAT_KEY));
         this.clientBox = clientBox;

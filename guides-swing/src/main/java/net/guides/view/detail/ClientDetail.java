@@ -22,7 +22,6 @@ public class ClientDetail implements Detail<Client> {
     private static final String CLIENT_DETAIL_ADD_BUTTON_KEY = "client.detail.add.button";
     private static final String CLIENT_DETAIL_EDIT_BUTTON_KEY = "client.detail.edit.button";
     private static final String CLIENT_DETAIL_CANCEL_BUTTON_KEY = "client.detail.cancel.button";
-    private final DataAccessFacade facade;
     private final String labelAddButton;
     private final String labelEditButton;
     private final String labelCancelButton;
@@ -36,12 +35,8 @@ public class ClientDetail implements Detail<Client> {
     private Integer id;
     private ActionListener addButtonListener;
     private ActionListener editButtonListener;
-    private Command<Client> addCommand;
-    private Command<Client> editCommand;
-    private Command<Client> deleteCommand;
 
-    public ClientDetail(Properties properties, final DataAccessFacade facade, final Command<Client> addCommand, final Command<Client> editCommand, Command<Client> deleteCommand) {
-        this.facade = facade;
+    public ClientDetail(Properties properties, final Command<Client> addCommand, final Command<Client> editCommand) {
         detailWindow = new JFrame(properties.getProperty(CLIENT_DETAIL_TITLE_KEY));
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         detailWindow.setVisible(false);
@@ -62,10 +57,6 @@ public class ClientDetail implements Detail<Client> {
         detailWindow.add(new JLabel(properties.getProperty(CLIENT_DETAIL_EMAIL_KEY)));
         email = new JTextField();
         detailWindow.add(email);
-
-        this.addCommand = addCommand;
-        this.editCommand = editCommand;
-        this.deleteCommand = deleteCommand;
 
         proceedButton = new JButton(labelAddButton);
         cancelButton = new JButton(labelCancelButton);

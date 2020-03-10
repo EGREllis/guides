@@ -34,11 +34,8 @@ public class EventDetail implements Detail<Event> {
     private Integer id;
     private final ActionListener addButtonListener;
     private final ActionListener editButtonListener;
-    private final Command<Event> addEventCommand;
-    private final Command<Event> editEventCommand;
-    private final Command<Event> deleteEventCommand;
 
-    public EventDetail(Properties properties, final Command<Event> addCommand, final Command<Event> editCommand, Command<Event> deleteCommand) {
+    public EventDetail(Properties properties, final Command<Event> addCommand, final Command<Event> editCommand) {
         detailWindow = new JFrame(properties.getProperty(EVENT_DETAIL_TITLE_KEY));
         detailWindow.setVisible(false);
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -58,10 +55,6 @@ public class EventDetail implements Detail<Event> {
         detailWindow.add(proceedButton);
         cancelButton = new JButton(labelCancelButton);
         detailWindow.add(cancelButton);
-
-        this.addEventCommand = addCommand;
-        this.editEventCommand = editCommand;
-        this.deleteEventCommand = deleteCommand;
 
         addButtonListener = new ActionListener() {
             @Override

@@ -19,39 +19,30 @@ public class PaymentTypeDetail implements Detail<PaymentType> {
     private static final String PAYMENT_TYPE_CANCEL_BUTTON_KEY = "payment.type.detail.cancel.button";
     private final String addButtonLabel;
     private final String editButtonLabel;
-    private final String cancelButtonLabel;
     private JFrame detailWindow;
     private JTextField description;
     private JButton proceedButton;
-    private JButton cancelButton;
     private Integer id;
-    private final Command<PaymentType> addCommand;
-    private final Command<PaymentType> editCommand;
-    private final Command<PaymentType> deleteCommand;
     private final ActionListener addButtonListener;
     private final ActionListener editButtonListener;
 
-    public PaymentTypeDetail(Properties properties, final Command<PaymentType> addCommand, final Command<PaymentType> editCommand, Command<PaymentType> deleteCommand) {
+    public PaymentTypeDetail(Properties properties, final Command<PaymentType> addCommand, final Command<PaymentType> editCommand) {
         detailWindow = new JFrame(properties.getProperty(PAYMENT_TYPE_DETAIL_WINDOW_KEY));
         detailWindow.setVisible(false);
         detailWindow.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         detailWindow.setLayout(new GridLayout(2, 1));
         addButtonLabel = properties.getProperty(PAYMENT_TYPE_ADD_BUTTON_KEY);
         editButtonLabel = properties.getProperty(PAYMENT_TYPE_EDIT_BUTTON_KEY);
-        cancelButtonLabel = properties.getProperty(PAYMENT_TYPE_CANCEL_BUTTON_KEY);
+        String cancelButtonLabel = properties.getProperty(PAYMENT_TYPE_CANCEL_BUTTON_KEY);
 
         detailWindow.add(new JLabel(properties.getProperty(PAYMENT_TYPE_DESCRIPTION_KEY)));
         description = new JTextField();
         detailWindow.add(description);
         proceedButton = new JButton(addButtonLabel);
         detailWindow.add(proceedButton);
-        cancelButton = new JButton(cancelButtonLabel);
+        JButton cancelButton = new JButton(cancelButtonLabel);
         detailWindow.add(cancelButton);
         detailWindow.pack();
-
-        this.addCommand = addCommand;
-        this.editCommand = editCommand;
-        this.deleteCommand = deleteCommand;
 
         addButtonListener = new ActionListener() {
             @Override

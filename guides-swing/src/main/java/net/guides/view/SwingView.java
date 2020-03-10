@@ -26,12 +26,11 @@ import net.guides.view.mapper.PaymentColumnMapper;
 import net.guides.view.mapper.PaymentTypeColumnMapper;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Properties;
 
 public class SwingView {
     private static final String TAB_TITLE_KEY = "%1$s.title";
@@ -46,6 +45,7 @@ public class SwingView {
     private JFrame window;
     private TabbedListTableView listClientsView;
     private List<Listener> listeners;
+    private Map<String, Component> components = new HashMap<>();
 
     public SwingView(Properties swingProperties, DataAccessFacade facade) {
         this.dataAccessFacade = facade;
@@ -119,7 +119,7 @@ public class SwingView {
         FacadeCommandTemplate<Client> addCommand = new ClientAddCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Client> editCommand = new ClientEditCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Client> deleteCommand = new ClientDeleteCommand(dataAccessFacade, properties);
-        Detail<Client> details = new ClientDetail(properties, facade, addCommand, editCommand, deleteCommand);
+        Detail<Client> details = new ClientDetail(properties, addCommand, editCommand);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
         final Tab tab = new TabImpl<>(tabTitle, clientLoader, mapper, details, properties, prefix, deleteCommand);
         addCommand.addListener(tab);
@@ -133,7 +133,7 @@ public class SwingView {
         FacadeCommandTemplate<Event> addCommand = new EventAddCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Event> editCommand = new EventEditCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<Event> deleteCommand = new EventDeleteCommand(dataAccessFacade, properties);
-        Detail<Event> details = new EventDetail(properties, addCommand, editCommand, deleteCommand);
+        Detail<Event> details = new EventDetail(properties, addCommand, editCommand);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
         final Tab tab = new TabImpl<>(tabTitle, eventLoader, mapper, details, properties, prefix, deleteCommand);
         addCommand.addListener(tab);
@@ -147,7 +147,7 @@ public class SwingView {
         FacadeCommandTemplate<PaymentType> addCommand = new PaymentTypeAddCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<PaymentType> editCommand = new PaymentTypeEditCommand(dataAccessFacade, properties);
         FacadeCommandTemplate<PaymentType> deleteCommand = new PaymentTypeDeleteCommand(dataAccessFacade, properties);
-        Detail<PaymentType> details = new PaymentTypeDetail(properties, addCommand, editCommand, deleteCommand);
+        Detail<PaymentType> details = new PaymentTypeDetail(properties, addCommand, editCommand);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
         final Tab tab = new TabImpl<>(tabTitle, paymentTypeLoader, mapper, details, properties, prefix, deleteCommand);
         addCommand.addListener(tab);
@@ -166,11 +166,15 @@ public class SwingView {
         LoaderDrivenComboBox<Event> eventBox = new LoaderDrivenComboBox<>(new JComboBox<String>(), new EventLoader(dataAccessFacade), new EventFormatter(properties));
         LoaderDrivenComboBox<PaymentType> paymentTypeBox = new LoaderDrivenComboBox<>(new JComboBox<String>(), new PaymentTypeLoader(dataAccessFacade), new PaymentTypeFormatter(properties));
 
-        Detail<Payment> detail = new PaymentDetail(dataAccessFacade, properties, addCommand, editCommand, deleteCommand, clientBox, eventBox, paymentTypeBox);
+        Detail<Payment> detail = new PaymentDetail(dataAccessFacade, properties, addCommand, editCommand, clientBox, eventBox, paymentTypeBox);
         String tabTitle = properties.getProperty(String.format(TAB_TITLE_KEY, prefix));
         final Tab tab = new TabImpl<>(tabTitle, paymentLoader, mapper, detail, properties, prefix, deleteCommand);
         addCommand.addListener(tab);
         editCommand.addListener(tab);
         return tab;
+    }
+
+    public Map<String,Component> getComponents() {
+        return Collections.unmodifiableMap(components);
     }
 }
