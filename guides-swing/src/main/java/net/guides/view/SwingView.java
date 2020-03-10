@@ -103,17 +103,17 @@ public class SwingView {
         window.setVisible(true);
 
         List<Tab> tabs = new ArrayList<>();
-        tabs.add(createClientTab(properties, CLIENT_TAB_PREFIX));
-        tabs.add(createEventTab(properties, EVENT_TAB_PREFIX));
-        tabs.add(createPaymentTypeDetailTab(properties, PAYMENT_TYPE_TAB_PREFIX));
-        tabs.add(createPaymentDetailTab(properties, PAYMENT_TAB_PREFIX));
+        tabs.add(createClientTab(CLIENT_TAB_PREFIX));
+        tabs.add(createEventTab(EVENT_TAB_PREFIX));
+        tabs.add(createPaymentTypeDetailTab(PAYMENT_TYPE_TAB_PREFIX));
+        tabs.add(createPaymentDetailTab(PAYMENT_TAB_PREFIX));
 
         listClientsView = new TabbedListTableView(tabs);
         listClientsView.addToContainer(window, BorderLayout.CENTER);
         window.pack();
     }
 
-    private Tab createClientTab(Properties properties, String prefix) {
+    private Tab createClientTab(String prefix) {
         Loader<Client> clientLoader = new ClientLoader(dataAccessFacade);
         ColumnMapper<Client> mapper = new ClientColumnMapper();
         FacadeCommandTemplate<Client> addCommand = new ClientAddCommand(dataAccessFacade, properties);
@@ -127,7 +127,7 @@ public class SwingView {
         return tab;
     }
 
-    private Tab createEventTab(Properties properties, String prefix) {
+    private Tab createEventTab(String prefix) {
         Loader<Event> eventLoader = new EventLoader(dataAccessFacade);
         ColumnMapper<Event> mapper = new EventColumnMapper();
         FacadeCommandTemplate<Event> addCommand = new EventAddCommand(dataAccessFacade, properties);
@@ -141,7 +141,7 @@ public class SwingView {
         return tab;
     }
 
-    private Tab createPaymentTypeDetailTab(Properties properties, String prefix) {
+    private Tab createPaymentTypeDetailTab(String prefix) {
         Loader<PaymentType> paymentTypeLoader = new PaymentTypeLoader(dataAccessFacade);
         ColumnMapper<PaymentType> mapper = new PaymentTypeColumnMapper();
         FacadeCommandTemplate<PaymentType> addCommand = new PaymentTypeAddCommand(dataAccessFacade, properties);
@@ -155,7 +155,7 @@ public class SwingView {
         return tab;
     }
 
-    private Tab createPaymentDetailTab(Properties properties, String prefix) {
+    private Tab createPaymentDetailTab(String prefix) {
         Loader<Payment> paymentLoader = new PaymentLoader(dataAccessFacade);
         ColumnMapper<Payment> mapper = new PaymentColumnMapper();
         FacadeCommandTemplate<Payment> addCommand = new PaymentAddCommand(dataAccessFacade, properties);
