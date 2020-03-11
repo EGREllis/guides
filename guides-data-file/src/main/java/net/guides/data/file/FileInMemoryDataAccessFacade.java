@@ -167,5 +167,11 @@ public class FileInMemoryDataAccessFacade extends InMemoryDataAccessFacade {
     public void stop() {
         DataAccessFileWriter fileWriter = DataAccessFileWriter.newFileWriter(this, properties);
         fileWriter.run();
+        try {
+            Thread.sleep(5000L);
+        } catch (InterruptedException ie) {
+            throw new RuntimeException(ie);
+        }
+        clear();
     }
 }

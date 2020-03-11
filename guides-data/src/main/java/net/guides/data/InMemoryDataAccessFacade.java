@@ -13,6 +13,13 @@ public class InMemoryDataAccessFacade implements DataAccessFacade {
     private Map<Integer,PaymentType> paymentTypes = new TreeMap<>();
     private Map<Integer,Payment> payments = new TreeMap<>();
 
+    protected void clear() {
+        clients.clear();
+        events.clear();
+        paymentTypes.clear();
+        payments.clear();
+    }
+
     @Override
     public void start() {
         /* Load data from database/read data from files */
