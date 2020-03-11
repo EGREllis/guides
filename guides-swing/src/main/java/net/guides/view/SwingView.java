@@ -47,10 +47,10 @@ public class SwingView {
     private List<Listener> listeners;
     private Map<String, Component> components = new HashMap<>();
 
-    public SwingView(Properties swingProperties, DataAccessFacade facade) {
+    private SwingView(Properties swingProperties, DataAccessFacade facade, int defaultCloseOperation) {
         this.dataAccessFacade = facade;
         window = new JFrame(swingProperties.getProperty(WINDOW_TITLE_KEY));
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(defaultCloseOperation);
         window.setLayout(new BorderLayout());
         properties = swingProperties;
         listeners = new ArrayList<>();
@@ -93,6 +93,14 @@ public class SwingView {
 
             }
         });
+    }
+
+    public static SwingView newSwingView(Properties properties, DataAccessFacade dataAccessFacade) {
+        return new SwingView(properties, dataAccessFacade, WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public static SwingView newTestSwingView(Properties properties, DataAccessFacade dataAccessFacade) {
+        return new SwingView(properties, dataAccessFacade, WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     public void addListener(Listener listener) {
@@ -176,5 +184,13 @@ public class SwingView {
 
     public Map<String,Component> getComponents() {
         return Collections.unmodifiableMap(components);
+    }
+
+    public JFrame getWindow() {
+        return window;
+    }
+
+    public void stop() {
+        window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
     }
 }

@@ -97,7 +97,7 @@ public class Main {
                 dataAccessFacade.getAllPaymentTypes().size(),
                 dataAccessFacade.getAllPayments().size()));
 
-        SwingView view = new SwingView(composedProperties, dataAccessFacade);
+        SwingView view = SwingView.newSwingView(composedProperties, dataAccessFacade);
         view.addListener(new Listener() {
             @Override
             public void alert() {

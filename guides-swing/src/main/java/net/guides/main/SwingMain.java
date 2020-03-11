@@ -21,7 +21,7 @@ public class SwingMain {
             throw new IllegalStateException();
         }
         DataAccessFacade facade = new LoggingDataAccessFacadeDecorator(InMemoryDataAccessFacade.stockedWithDummyData());
-        SwingView view = new SwingView(swingProperties, facade);
+        SwingView view = SwingView.newSwingView(swingProperties, facade);
         view.start();
     }
 }
