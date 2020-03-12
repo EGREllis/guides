@@ -17,5 +17,6 @@
     <module>guides-data-file</module>
     <module>guides-compose</module>
     <module>guides-uat</module>
+    <module>guides-email</module>
   </modules>
 </project>
