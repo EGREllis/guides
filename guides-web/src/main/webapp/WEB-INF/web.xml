@@ -3,5 +3,26 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Girl Guide Event Booking Tracking</display-name>
+  <!-- All servlets before all servlet mappings -->
+  <servlet>
+    <servlet-name>ClientServlet</servlet-name>
+    <servlet-class>net.guides.view.web.client.ClientServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>clients</servlet-name>
+    <jsp-file>/jsp/clients.jsp</jsp-file>
+  </servlet>
+
+  <!-- All servlet mappings after all servlets-->
+  <servlet-mapping>
+    <servlet-name>ClientServlet</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>clients</servlet-name>
+    <url-pattern>*.php</url-pattern>
+  </servlet-mapping>
 </web-app>
