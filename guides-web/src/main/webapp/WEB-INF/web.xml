@@ -25,4 +25,8 @@
     <servlet-name>clients</servlet-name>
     <url-pattern>*.php</url-pattern>
   </servlet-mapping>
+
+  <listeners>
+    <listener>net.guides.view.web.listener.GuideStartupListener</listener>
+  </listeners>
 </web-app>

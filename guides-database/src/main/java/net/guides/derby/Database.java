@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class Database {
+    public static final String DATABASE_DATE_FORMAT = "sql.date.format";
     private static final String DATABASE_PROPERTIES_LOCATION = "properties/db_connection.properties";
     private static final String CREATE_TABLE_LOCATION = "ddl/create_table.dat";
     private static final String INSERT_TABLE_LOCATION = "dml/insert_data.dat";

@@ -61,7 +61,7 @@ public class Main {
                 if (nGuides == 0) {
                     database.create(true, true, true, false);
                 }
-                DateFormat dateFormat = new SimpleDateFormat(composedProperties.getProperty("sql.date.format"));
+                DateFormat dateFormat = new SimpleDateFormat(composedProperties.getProperty(Database.DATABASE_DATE_FORMAT));
                 ClientJDBCReader clientReader = new ClientJDBCReader();
                 EventJDBCReader eventReader = new EventJDBCReader();
                 PaymentTypeJDBCReader paymentTypeReader = new PaymentTypeJDBCReader();

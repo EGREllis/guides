@@ -20,3 +20,7 @@ Known bugs:
 20200304: Add payment using direct JDBC implementation throws Exception.
 20200304: SELECT single rows for event and payment type throw Exceptions	FIXED
 20200308: Exception occurred when clients were read from the file they were written to
+
+Quality issues:
+20200313: I don't like the way the jdbc payment loader uses pre-loaded clients, events and payment types.  At load time its fine, but it will become out of date as clients, events, payment_types are added.
+20200313: I feel the application would be tidier if there was one set of logic for obtaining a DataFacade implementation (eg: file/db mode, create db?)
