@@ -23,6 +23,7 @@ public class GuideStartupListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        System.out.println("Servlet context initialised... "+sce.getServletContext().getServletContextName());
         String dataMode = sce.getServletContext().getInitParameter(DATA_ACCESS_MODE_KEY).toLowerCase();
         Properties properties = new Properties();
         try (InputStream input = ClassLoader.getSystemResourceAsStream("web.properties")) {
